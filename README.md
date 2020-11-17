@@ -1,5 +1,5 @@
 # Killer Artists
-Definitely not an Among Us clone with drawing mechanics shoehorned in.
+Final project for FINE 1003. Definitely not an Among Us clone with drawing mechanics shoehorned in.
 ## How to Upload Assets (or anything) to the Project (The Quick and Easy Way)
   * First, you're gonna need to make sure you've installed Git (you could also use Atom, but Git coincides with the HARDCORE WAY of making changes): https://git-scm.com/downloads
 ### You downloaded it? No issues? Great. Now follow these steps:
