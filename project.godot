@@ -20,11 +20,8 @@ _global_script_class_icons={
 
 [application]
 
-config/name="WebRTC Signaling Example"
-config/description="A WebSocket signaling server/client for WebRTC.
-This demo is devided in 4 parts.
-The protocol is text based, and composed by a command and possibly
-multiple payload arguments, each separated by a new line."
+config/name="Killer Artists"
+config/description="Definitely not an Among Us clone with drawing mechanics shoehorned in."
 run/main_scene="res://demo/main.tscn"
 
 [debug]
@@ -35,6 +32,7 @@ gdscript/warnings/return_value_discarded=false
 
 [display]
 
+window/dpi/allow_hidpi=true
 window/stretch/mode="2d"
 window/stretch/aspect="expand"
 
@@ -42,6 +40,29 @@ window/stretch/aspect="expand"
 
 singletons=[ "res://git_api.gdnlib", "res://webrtc/webrtc.tres" ]
 singletons_disabled=[  ]
+
+[input]
+
+move_up={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":87,"unicode":0,"echo":false,"script":null)
+ ]
+}
+move_down={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":83,"unicode":0,"echo":false,"script":null)
+ ]
+}
+move_left={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":65,"unicode":0,"echo":false,"script":null)
+ ]
+}
+move_right={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":68,"unicode":0,"echo":false,"script":null)
+ ]
+}
 
 [network]
 

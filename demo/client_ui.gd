@@ -2,6 +2,10 @@ extends Control
 
 onready var client = $Client
 
+# Preload game scene
+const GAME = preload("res://scenes/game.tscn")
+var game_instance
+
 func _ready():
 	client.connect("lobby_joined", self, "_lobby_joined")
 	client.connect("lobby_sealed", self, "_lobby_sealed")
@@ -12,7 +16,6 @@ func _ready():
 	client.rtc_mp.connect("server_disconnected", self, "_mp_server_disconnect")
 	client.rtc_mp.connect("connection_succeeded", self, "_mp_connected")
 
-
 func _process(delta):
 	client.rtc_mp.poll()
 	while client.rtc_mp.get_available_packet_count() > 0:
@@ -22,13 +25,34 @@ func _process(delta):
 func _connected(id):
 	_log("Signaling server connected with ID: %d" % id)
 
+# Creates a game instance within the client text box
+func instance_game():
+		var text_edit = get_node("VBoxContainer/TextEdit")
+		# Instance game if it doesn't exist
+		if (!game_instance):
+			game_instance = GAME.instance()
+			text_edit.add_child(game_instance)
+			print("created")
+		# Set viewport size to text box size
+		game_instance.get_node("ViewportContainer").rect_size = text_edit.rect_size
+		print(text_edit.rect_size);
+
 
 func _disconnected():
 	_log("Signaling server disconnected: %d - %s" % [client.code, client.reason])
+	# Delete game instance (if it exists)
+	if (game_instance):
+		game_instance.queue_free()
 
 
 func _lobby_joined(lobby):
 	_log("Joined lobby %s" % lobby)
+	# When hosting a new lobby while already being in one, the server
+	# recognizes the peer disconnecting, deleting the lobby ('cause it's
+	# empty) but the peer itself does not, since it technically hasn't 
+	# "disconnected" - just moved to another lobby. I'll work on this
+	# quirk later 
+	instance_game()
 
 
 func _lobby_sealed():
