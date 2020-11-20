@@ -35,7 +35,6 @@ func instance_game():
 			print("created")
 		# Set viewport size to text box size
 		game_instance.get_node("ViewportContainer").rect_size = text_edit.rect_size
-		print(text_edit.rect_size);
 
 
 func _disconnected():
