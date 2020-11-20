@@ -8,7 +8,5 @@ func move(delta):
 		Input.get_action_strength("move_right") - Input.get_action_strength("move_left"),
 		Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
 	).normalized() * MOVE_SPEED
-	# Player is getting stuck on polygon colliders no matter what 
-	# collision shape it has - I NEED TO FIX THIS!!!
 	velocity = move_and_slide(velocity)
 	position += velocity
