@@ -101,3 +101,11 @@ func _on_Seal_pressed():
 
 func stop():
 	client.stop()
+
+func _on_Console_toggled(enabled):
+	var text_edit = get_node("VBoxContainer/TextEdit")
+	if game_instance:
+		if enabled:
+			text_edit.remove_child(game_instance)
+		else:
+			text_edit.add_child(game_instance)

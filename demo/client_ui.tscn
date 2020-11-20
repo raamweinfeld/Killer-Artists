@@ -58,7 +58,7 @@ placeholder_text = "secret"
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 32.0
 margin_right = 1024.0
-margin_bottom = 52.0
+margin_bottom = 56.0
 custom_constants/separation = 10
 __meta__ = {
 "_edit_use_anchors_": false
@@ -66,35 +66,41 @@ __meta__ = {
 
 [node name="Start" type="Button" parent="VBoxContainer/HBoxContainer"]
 margin_right = 41.0
-margin_bottom = 20.0
+margin_bottom = 24.0
 text = "Start"
 
 [node name="Stop" type="Button" parent="VBoxContainer/HBoxContainer"]
 margin_left = 51.0
 margin_right = 91.0
-margin_bottom = 20.0
+margin_bottom = 24.0
 text = "Stop"
 
 [node name="Seal" type="Button" parent="VBoxContainer/HBoxContainer"]
 margin_left = 101.0
 margin_right = 139.0
-margin_bottom = 20.0
+margin_bottom = 24.0
 text = "Seal"
 
 [node name="Ping" type="Button" parent="VBoxContainer/HBoxContainer"]
 margin_left = 149.0
 margin_right = 188.0
-margin_bottom = 20.0
+margin_bottom = 24.0
 text = "Ping"
 
 [node name="Peers" type="Button" parent="VBoxContainer/HBoxContainer"]
 margin_left = 198.0
 margin_right = 280.0
-margin_bottom = 20.0
+margin_bottom = 24.0
 text = "Print peers"
 
+[node name="Console" type="CheckBox" parent="VBoxContainer/HBoxContainer"]
+margin_left = 290.0
+margin_right = 406.0
+margin_bottom = 24.0
+text = "Show Console"
+
 [node name="TextEdit" type="TextEdit" parent="VBoxContainer"]
-margin_top = 60.0
+margin_top = 64.0
 margin_right = 1024.0
 margin_bottom = 600.0
 size_flags_vertical = 3
@@ -104,3 +110,4 @@ readonly = true
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Seal" to="." method="_on_Seal_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Ping" to="." method="ping"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Peers" to="." method="_on_Peers_pressed"]
+[connection signal="toggled" from="VBoxContainer/HBoxContainer/Console" to="." method="_on_Console_toggled"]
