@@ -32,13 +32,19 @@ render_target_update_mode = 3
 scale = Vector2( 3, 3 )
 texture = ExtResource( 1 )
 
+[node name="StaticBody2D" type="StaticBody2D" parent="ViewportContainer/Viewport/Background"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ViewportContainer/Viewport/Background/StaticBody2D"]
+polygon = PoolVector2Array( 125.333, 16, 205.333, 16, 208, 170.667, 165.333, 170.667, 165.333, 66.6667, 125.333, 66.6667 )
+
 [node name="Player" type="KinematicBody2D" parent="ViewportContainer/Viewport"]
 script = ExtResource( 3 )
 
-[node name="Player" type="Sprite" parent="ViewportContainer/Viewport/Player"]
+[node name="Sprite" type="Sprite" parent="ViewportContainer/Viewport/Player"]
 texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ViewportContainer/Viewport/Player"]
+position = Vector2( 0, 20 )
 shape = SubResource( 1 )
 
 [node name="Camera2D" type="Camera2D" parent="ViewportContainer/Viewport/Player"]

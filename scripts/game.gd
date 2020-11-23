@@ -9,7 +9,7 @@ func _ready():
 	player = get_node("ViewportContainer/Viewport/Player")
 	players_node = get_node("ViewportContainer/Viewport/Players")
 	
-func _process(delta):
+func _physics_process(delta):
 	if (focus):
 		player.move(delta)
 
