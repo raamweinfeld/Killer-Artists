@@ -17,9 +17,12 @@ func _ready():
 	client.rtc_mp.connect("connection_succeeded", self, "_mp_connected")
 
 func _process(delta):
+	if(game_instance): client.rtc_mp.put_var(game_instance.get_client_info(), true)
 	client.rtc_mp.poll()
 	while client.rtc_mp.get_available_packet_count() > 0:
-		_log(client.rtc_mp.get_packet().get_string_from_utf8())
+		var sent_data = client.rtc_mp.get_var(true)
+		if(game_instance):
+			game_instance.update_player(client.rtc_mp.get_packet_peer(),sent_data)
 
 
 func _connected(id):

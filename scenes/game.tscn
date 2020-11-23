@@ -43,5 +43,7 @@ shape = SubResource( 1 )
 
 [node name="Camera2D" type="Camera2D" parent="ViewportContainer/Viewport/Player"]
 current = true
+
+[node name="Players" type="Node" parent="ViewportContainer/Viewport"]
 [connection signal="mouse_entered" from="ViewportContainer" to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="ViewportContainer" to="." method="_on_mouse_exited"]
