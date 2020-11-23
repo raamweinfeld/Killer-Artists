@@ -3,7 +3,7 @@ extends Control
 var focus = false
 var player
 var players = {}
-var players_node
+var players_node: Node
 
 func _ready():
 	player = get_node("ViewportContainer/Viewport/Player")
@@ -32,3 +32,7 @@ func update_player(player_id, data):
 		new_player_node.texture = load("res://assets/player_test.png")
 		players_node.add_child(new_player_node)
 	players_node.get_node(str(player_id)).position = data.pos
+
+func disconnect_peer(id):
+	players_node.get_node(str(id)).remove_and_skip()
+	pass

@@ -20,9 +20,10 @@ func _process(delta):
 	if(game_instance): client.rtc_mp.put_var(game_instance.get_client_info(), true)
 	client.rtc_mp.poll()
 	while client.rtc_mp.get_available_packet_count() > 0:
+		var id = client.rtc_mp.get_packet_peer()
 		var sent_data = client.rtc_mp.get_var(true)
 		if(game_instance):
-			game_instance.update_player(client.rtc_mp.get_packet_peer(),sent_data)
+			game_instance.update_player(id,sent_data)
 
 
 func _connected(id):
@@ -75,6 +76,7 @@ func _mp_peer_connected(id: int):
 
 
 func _mp_peer_disconnected(id: int):
+	if(game_instance): game_instance.disconnect_peer(id)
 	_log("Multiplayer peer %d disconnected" % id)
 
 
