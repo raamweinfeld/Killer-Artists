@@ -2,7 +2,7 @@ extends Node
 
 const TIMEOUT = 1000 # Unresponsive clients times out after 1 sec
 const SEAL_TIME = 10000 # A sealed room will be closed after this time
-const ALFNUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+const ALFNUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 var _alfnum = ALFNUM.to_ascii()
 
@@ -134,7 +134,7 @@ func _peer_disconnected(id, was_clean = false):
 
 func _join_lobby(peer, lobby) -> bool:
 	if lobby == "":
-		for _i in range(0, 32):
+		for _i in range(0, 5):
 			lobby += char(_alfnum[rand.randi_range(0, ALFNUM.length()-1)])
 		lobbies[lobby] = Lobby.new(peer.id)
 	elif not lobbies.has(lobby):

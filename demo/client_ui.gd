@@ -52,6 +52,7 @@ func _disconnected():
 	# Delete game instance (if it exists)
 	if (game_instance):
 		game_instance.queue_free()
+	get_node("VBoxContainer/HBoxContainer/Label").text = ""
 
 
 func _lobby_joined(lobby):
@@ -63,7 +64,7 @@ func _lobby_joined(lobby):
 	# quirk later 
 	instance_game()
 	game_instance.set_first_player(client.rtc_mp.get_peers().size() == 0)
-
+	get_node("VBoxContainer/HBoxContainer/Label").text = str(lobby)
 
 func _lobby_sealed():
 	_log("Lobby has been sealed")
@@ -90,18 +91,6 @@ func _mp_peer_disconnected(id: int):
 func _log(msg):
 	print(msg)
 	$VBoxContainer/TextEdit.text += str(msg) + "\n"
-
-
-func ping():
-	_log(client.rtc_mp.put_packet("ping".to_utf8()))
-
-
-func _on_Peers_pressed():
-	var d = client.rtc_mp.get_peers()
-	_log(d)
-	for k in d:
-		_log(client.rtc_mp.get_peer(k))
-
 
 func start():
 	client.start($VBoxContainer/Connect/Host.text, $VBoxContainer/Connect/RoomSecret.text)
