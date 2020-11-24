@@ -17,7 +17,12 @@ func _ready():
 	client.rtc_mp.connect("connection_succeeded", self, "_mp_connected")
 
 func _process(delta):
-	if(game_instance): client.rtc_mp.put_var(game_instance.get_client_info(), true)
+	if(game_instance):
+		client.rtc_mp.put_var(game_instance.get_client_info(), true)
+		for x in game_instance.logs:
+			_log(str(x))
+		game_instance.logs.clear()
+
 	client.rtc_mp.poll()
 	while client.rtc_mp.get_available_packet_count() > 0:
 		var id = client.rtc_mp.get_packet_peer()
@@ -57,6 +62,7 @@ func _lobby_joined(lobby):
 	# "disconnected" - just moved to another lobby. I'll work on this
 	# quirk later 
 	instance_game()
+	game_instance.set_first_player(client.rtc_mp.get_peers().size() == 0)
 
 
 func _lobby_sealed():
@@ -65,6 +71,7 @@ func _lobby_sealed():
 
 func _mp_connected():
 	_log("Multiplayer is connected (I am %d)" % client.rtc_mp.get_unique_id())
+	game_instance.set_id(client.rtc_mp.get_unique_id())
 
 
 func _mp_server_disconnect():

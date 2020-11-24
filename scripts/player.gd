@@ -10,3 +10,7 @@ func move(delta):
 	).normalized() * MOVE_SPEED
 	velocity = move_and_slide(velocity)
 	position += velocity
+
+func update_draw_data(data):
+	get_node("Sprite").data = data
+	get_node("Sprite").update()

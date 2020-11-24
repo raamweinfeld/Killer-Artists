@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/bg_test.png" type="Texture" id=1]
 [ext_resource path="res://assets/player_test.png" type="Texture" id=2]
 [ext_resource path="res://scripts/player.gd" type="Script" id=3]
 [ext_resource path="res://scripts/game.gd" type="Script" id=4]
+[ext_resource path="res://scripts/draw_player.gd" type="Script" id=5]
 
 [sub_resource type="CircleShape2D" id=1]
 
@@ -38,10 +39,12 @@ texture = ExtResource( 1 )
 polygon = PoolVector2Array( 125.333, 16, 205.333, 16, 208, 170.667, 165.333, 170.667, 165.333, 66.6667, 125.333, 66.6667 )
 
 [node name="Player" type="KinematicBody2D" parent="ViewportContainer/Viewport"]
+position = Vector2( 50, 50 )
 script = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="ViewportContainer/Viewport/Player"]
 texture = ExtResource( 2 )
+script = ExtResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ViewportContainer/Viewport/Player"]
 position = Vector2( 0, 20 )
