@@ -73,6 +73,8 @@ func update_player(player_id, data):
 	player_node.update()
 
 func start_game():
+	var rot = id
+	player.position = Vector2(300,-1000)+Vector2(cos(rot),sin(rot))*100
 	playing = true
 	if(first_player):
 		var l_players = player_ids
