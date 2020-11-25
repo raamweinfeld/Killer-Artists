@@ -65,6 +65,7 @@ func update_player(player_id, data):
 		var new_player_node = Sprite.new()
 		new_player_node.name = str(player_id)
 		new_player_node.texture = load("res://assets/player_test.png")
+		new_player_node.light_mask = 2
 		new_player_node.set_script(load("res://scripts/draw_player.gd"))
 		players_node.add_child(new_player_node)
 	var player_node:Sprite = players_node.get_node(str(player_id))

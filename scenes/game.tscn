@@ -1,10 +1,18 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/bg_test.png" type="Texture" id=1]
 [ext_resource path="res://assets/player_test.png" type="Texture" id=2]
 [ext_resource path="res://scripts/player.gd" type="Script" id=3]
 [ext_resource path="res://scripts/game.gd" type="Script" id=4]
 [ext_resource path="res://scripts/draw_player.gd" type="Script" id=5]
+[ext_resource path="res://assets/pictureLightMask2_thumb.png" type="Texture" id=6]
+[ext_resource path="res://assets/pictureLightMask_thumb.png" type="Texture" id=7]
+
+[sub_resource type="OccluderPolygon2D" id=2]
+polygon = PoolVector2Array( -13.3333, 40, 69.3333, 40, 69.3333, -117.333, -18.6667, -117.333, -117.333, -216, -117.333, -312, -205.333, -312, -205.333, -282.667, -146.667, -282.667, -146.667, -181.333, -77.3333, -114.667, -77.3333, -64, -282.667, -64, -314.667, -104, -314.667, -282.667, -266.667, -282.667, -266.667, -312, -464, -312, -464, -232, -514.667, -232, -514.667, -128, -448, -128, -448, -181.333, -410.667, -213.333, -373.333, -213.333, -346.667, -184, -346.667, -106.667, -384, -106.667, -384, -90.6667, -365.333, -90.6667, -365.333, -58.6667, -346.667, -58.6667, -346.667, -2.66667, -448, -2.66667, -448, -53.3333, -514.667, -53.3333, -514.667, 56, -464, 56, -464, 122.667, -322.667, 122.667, -322.667, 232, -280, 232, -280, 82.6667, -178.667, 82.6667, -178.667, 66.6667, -280, 66.6667, -277.333, -18.6667, -77.3333, -18.6667, -77.3333, 32, -128, 82.6667, -128, 160, -168, 200, -221.333, 200, -221.333, 232, -74.6667, 232, -74.6667, 101.333 )
+
+[sub_resource type="OccluderPolygon2D" id=3]
+polygon = PoolVector2Array( 130.667, 16, 130.667, 40, 165.333, 40, 165.333, 141.333, 410.667, 144, 410.667, 133.333, 450.667, 93.3333, 477.333, 93.3333, 477.333, -85.3333, 573.333, -85.3333, 573.333, -133.333, 437.333, -133.333, 437.333, -90.6667, 290.667, -90.6667, 290.667, -149.333, 354.667, -210.667, 354.667, -226.667, 434.667, -226.667, 434.667, -210.667, 474.667, -210.667, 474.667, -261.333, 453.333, -261.333, 410.667, -301.333, 410.667, -312, 325.333, -312, 325.333, -218.667, 224, -117.333, 133.333, -117.333, 133.333, -61.3333, 405.333, -61.3333, 405.333, 82.6667, 370.667, 117.333, 208, 117.333, 208, 16 )
 
 [sub_resource type="CircleShape2D" id=1]
 
@@ -30,19 +38,32 @@ handle_input_locally = false
 render_target_update_mode = 3
 
 [node name="Background" type="Sprite" parent="ViewportContainer/Viewport"]
+modulate = Color( 0.392157, 0.392157, 0.392157, 1 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 1 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="ViewportContainer/Viewport/Background"]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ViewportContainer/Viewport/Background/StaticBody2D"]
-polygon = PoolVector2Array( 130.667, 16, 208, 16, 208, 116.964, 370.667, 117.333, 405.333, 82.6667, 405.333, -34.6667, 133.333, -34.6667, 133.333, -117.333, 224, -117.333, 325.333, -218.667, 325.333, -312, 461.333, -312, 474.667, -296, 474.667, -181.333, 357.333, -181.333, 290.667, -117.333, 290.667, -90.6667, 437.333, -90.6667, 437.333, -133.333, 573.333, -133.333, 573.333, -56, 474.667, -56, 480, 149.333, 442.667, 176, 165.333, 176, 165.333, 66.6667, 130.667, 66.6667 )
+polygon = PoolVector2Array( 130.667, 16, 208, 16, 208, 116.964, 370.667, 117.333, 405.333, 82.6667, 405.333, -34.6667, 133.333, -34.6667, 133.333, -117.333, 224, -117.333, 325.333, -218.667, 325.333, -312, 461.333, -312, 474.667, -296, 474.667, -181.333, 357.333, -181.333, 290.667, -117.333, 290.667, -90.6667, 437.333, -90.6667, 437.333, -133.333, 573.333, -133.333, 573.333, -56, 477.333, -56, 477.333, 149.333, 442.667, 176, 165.333, 176, 165.333, 66.6667, 130.667, 66.6667 )
 
 [node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="ViewportContainer/Viewport/Background/StaticBody2D"]
 polygon = PoolVector2Array( 69.3333, 66.6667, 69.3333, -117.333, -18.6667, -117.333, -117.333, -216, -117.333, -312, -205.333, -312, -205.333, -253.333, -146.667, -253.333, -146.667, -242.667, -194.667, -242.667, -194.667, -213.333, -146.667, -213.333, -146.667, -192, -194.667, -192, -194.667, -160, -146.667, -160, -146.667, -149.333, -77.3333, -80, -77.3333, -64, -282.667, -64, -314.667, -104, -314.667, -160, -269.333, -160, -269.333, -192, -314.667, -192, -314.667, -213.333, -269.333, -213.333, -269.333, -242.667, -314.667, -242.667, -314.667, -253.333, -266.667, -253.333, -266.667, -312, -464, -312, -464, -232, -514.667, -232, -514.667, -98.6667, -448, -98.6667, -448, -149.333, -410.667, -186.667, -376, -186.667, -346.667, -157.333, -346.667, -106.667, -384, -106.667, -384, -90.6667, -365.333, -90.6667, -365.333, -58.6667, -346.667, -58.6667, -346.667, -2.66667, -344, -2.66667, -448, -2.66667, -448, -53.3333, -514.667, -53.3333, -514.667, 85.3333, -464, 85.3333, -464, 152, -322.667, 152, -322.667, 261.333, -280, 261.333, -280, 114.667, -178.667, 114.667, -178.667, 66.6667, -280, 66.6667, -280, 10.6667, -213.333, 10.6667, -213.333, 18.6667, -141.333, 18.6667, -141.333, 21.3333, -77.3333, 21.3333, -77.3333, 32, -128, 82.6667, -128, 160, -168, 200, -221.333, 200, -221.333, 261.333, -74.6667, 261.333, -74.6667, 128, -13.3333, 66.6667 )
 
+[node name="LightOccluder2D" type="LightOccluder2D" parent="ViewportContainer/Viewport/Background"]
+light_mask = -2147483645
+occluder = SubResource( 2 )
+light_mask = -2147483645
+
+[node name="LightOccluder2D2" type="LightOccluder2D" parent="ViewportContainer/Viewport/Background"]
+light_mask = 3
+occluder = SubResource( 3 )
+light_mask = 3
+
+[node name="Players" type="Node" parent="ViewportContainer/Viewport"]
+
 [node name="Player" type="KinematicBody2D" parent="ViewportContainer/Viewport"]
-position = Vector2( 50, 50 )
+position = Vector2( 216, 272 )
 script = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="ViewportContainer/Viewport/Player"]
@@ -56,6 +77,17 @@ shape = SubResource( 1 )
 [node name="Camera2D" type="Camera2D" parent="ViewportContainer/Viewport/Player"]
 current = true
 
-[node name="Players" type="Node" parent="ViewportContainer/Viewport"]
+[node name="Light2D" type="Light2D" parent="ViewportContainer/Viewport/Player"]
+texture = ExtResource( 6 )
+texture_scale = 4.23
+shadow_enabled = true
+
+[node name="Light2D2" type="Light2D" parent="ViewportContainer/Viewport/Player"]
+texture = ExtResource( 7 )
+texture_scale = 4.23
+mode = 3
+range_item_cull_mask = 2
+shadow_enabled = true
+shadow_item_cull_mask = 2
 [connection signal="mouse_entered" from="ViewportContainer" to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="ViewportContainer" to="." method="_on_mouse_exited"]
