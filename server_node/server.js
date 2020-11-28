@@ -4,7 +4,7 @@ const crypto = require("crypto");
 const MAX_PEERS = 4096;
 const MAX_LOBBIES = 1024;
 const PORT = 9080;
-const ALFNUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+const ALFNUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 const NO_LOBBY_TIMEOUT = 1000;
 const SEAL_CLOSE_TIMEOUT = 10000;
@@ -36,7 +36,7 @@ function randomId () {
 
 function randomSecret () {
 	let out = "";
-	for (let i = 0; i < 16; i++) {
+	for (let i = 0; i < 5; i++) {
 		out += ALFNUM[randomInt(0, ALFNUM.length - 1)];
 	}
 	return out;
