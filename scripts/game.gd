@@ -1,5 +1,7 @@
 extends Control
 
+var viewport
+
 var focus:bool = false
 var player:KinematicBody2D
 var first_player:bool
@@ -8,8 +10,9 @@ var player_ids : Array = []
 var players_node: Node
 var logs:Array = []
 var playing:bool = false
-const settings = {impostors = 2}
+const settings = {impostors = 2,killLength=250}
 var is_impostor:bool = false
+var is_dead:bool = false
 
 var rand_generate:RandomNumberGenerator = RandomNumberGenerator.new()
 var impostors:Array = []
@@ -19,6 +22,7 @@ var id:int
 func _ready():
 	player = get_node("ViewportContainer/Viewport/Player")
 	players_node = get_node("ViewportContainer/Viewport/Players")
+	viewport = get_node("ViewportContainer/Viewport")
 	rand_generate.randomize()
 	
 func _physics_process(delta):
@@ -34,14 +38,26 @@ func _on_mouse_exited():
 	focus = false
 
 func get_client_info():
-	if(Input.get_action_strength("start") == 1 && !playing): start_game()
+	if(focus && Input.get_action_strength("start") == 1 && !playing): start_game()
+	var killing = -1
+	if(is_impostor && !is_dead && focus && Input.is_action_just_pressed("kill")):
+		var minLength = 100000000000
+		for player2 in players.values():
+			var length = (player2.pos-player.position).length()
+			if(length < minLength && !player2.is_impostor):
+				minLength = length
+				killing = player2.id
+		if(minLength > settings.killLength): killing = -1
 	var data = {
 		pos=player.position,
 		first_player=first_player,
 		playing=playing,
 		is_impostor=is_impostor,
 		impostors=impostors,
-		player_name=player_name
+		player_name=player_name,
+		is_dead=is_dead,
+		killing=killing,
+		id=id
 	}
 	player.update_draw_data(data)
 	return data
@@ -68,6 +84,7 @@ func update_player(player_id, data):
 		new_player_node.light_mask = 2
 		new_player_node.set_script(load("res://scripts/draw_player.gd"))
 		players_node.add_child(new_player_node)
+	if(data.killing == id): is_dead = true
 	var player_node:Sprite = players_node.get_node(str(player_id))
 	player_node.position = data.pos
 	player_node.data = data
@@ -75,7 +92,7 @@ func update_player(player_id, data):
 
 func start_game():
 	var rot = id
-	player.position = Vector2(300,-1000)+Vector2(cos(rot),sin(rot))*100
+	player.position = Vector2(300,-1000)+Vector2(cos(rot),sin(rot))*200
 	playing = true
 	if(first_player):
 		var l_players = player_ids
