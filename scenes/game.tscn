@@ -92,10 +92,14 @@ occluder = SubResource( 2 )
 light_mask = 3
 
 [node name="LightOccluder2D3" type="LightOccluder2D" parent="ViewportContainer/Viewport/Background"]
+light_mask = 3
 occluder = SubResource( 4 )
+light_mask = 3
 
 [node name="LightOccluder2D4" type="LightOccluder2D" parent="ViewportContainer/Viewport/Background"]
+light_mask = 3
 occluder = SubResource( 5 )
+light_mask = 3
 
 [node name="Players" type="Node" parent="ViewportContainer/Viewport"]
 
@@ -104,6 +108,7 @@ position = Vector2( 216, 272 )
 script = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="ViewportContainer/Viewport/Player"]
+light_mask = -2147483646
 texture = ExtResource( 2 )
 script = ExtResource( 5 )
 

@@ -1,6 +1,6 @@
 extends Control
 
-var viewport
+var viewport: Viewport
 
 var focus:bool = false
 var player:KinematicBody2D
@@ -48,6 +48,13 @@ func get_client_info():
 				minLength = length
 				killing = player2.id
 		if(minLength > settings.killLength): killing = -1
+		if(killing != -1):
+			var body:Sprite = Sprite.new()
+			body.texture = load("res://assets/player_test.png")
+			body.light_mask = 2
+			body.position = players[killing].pos
+			viewport.add_child(body)
+			player.position = players[killing].pos
 	var data = {
 		pos=player.position,
 		first_player=first_player,
@@ -84,7 +91,19 @@ func update_player(player_id, data):
 		new_player_node.light_mask = 2
 		new_player_node.set_script(load("res://scripts/draw_player.gd"))
 		players_node.add_child(new_player_node)
-	if(data.killing == id): is_dead = true
+	if(data.killing == id):
+		is_dead = true
+		var body:Sprite = Sprite.new()
+		body.texture = load("res://assets/player_test.png")
+		body.light_mask = 2
+		body.position = player.position
+		viewport.add_child(body)
+	elif(data.killing != -1):
+		var body:Sprite = Sprite.new()
+		body.texture = load("res://assets/player_test.png")
+		body.light_mask = 2
+		body.position = players[data.killing].pos
+		viewport.add_child(body)
 	var player_node:Sprite = players_node.get_node(str(player_id))
 	player_node.position = data.pos
 	player_node.data = data

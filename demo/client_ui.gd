@@ -5,6 +5,7 @@ onready var client = $Client
 # Preload game scene
 const GAME = preload("res://scenes/game.tscn")
 var game_instance
+var g_id
 
 func _ready():
 	client.connect("lobby_joined", self, "_lobby_joined")
@@ -33,6 +34,7 @@ func _process(delta):
 
 func _connected(id):
 	_log("Signaling server connected with ID: %d" % id)
+	g_id = id
 
 # Creates a game instance within the client text box
 func instance_game():
@@ -65,6 +67,7 @@ func _lobby_joined(lobby):
 	instance_game()
 	game_instance.set_first_player(client.rtc_mp.get_peers().size() == 0)
 	get_node("VBoxContainer/HBoxContainer/Label").text = str(lobby)
+	game_instance.set_id(g_id)
 
 func _lobby_sealed():
 	_log("Lobby has been sealed")
@@ -72,7 +75,6 @@ func _lobby_sealed():
 
 func _mp_connected():
 	_log("Multiplayer is connected (I am %d)" % client.rtc_mp.get_unique_id())
-	game_instance.set_id(client.rtc_mp.get_unique_id())
 
 
 func _mp_server_disconnect():
