@@ -18,6 +18,8 @@ var rand_generate:RandomNumberGenerator = RandomNumberGenerator.new()
 var impostors:Array = []
 var player_name: String = "jeff"
 var id:int
+var vote:int = -1
+var color:Color
 
 var prev_pixel:Vector2
 var lines_to_draw:Array = []
@@ -27,6 +29,7 @@ func _ready():
 	player = viewport.get_node("Player")
 	players_node = viewport.get_node("Players")
 	rand_generate.randomize()
+	color = Color(rand_generate.randf(),rand_generate.randf(),rand_generate.randf())
 	
 func _physics_process(delta):
 	if (focus):
@@ -42,20 +45,23 @@ func _on_mouse_exited():
 
 func get_client_info():
 	var mouse_pos : Vector2
+	var mouse_pixel : Vector2
 	var drawing : Sprite = viewport.get_node("Background")
 	var img = drawing.texture.get_data()
-	if(focus && Input.get_action_strength("drawing") == 1):
-		var scale : Vector2 = player.get_node("Camera2D").zoom
-		mouse_pos = get_local_mouse_position()
-		mouse_pos -= get_parent_area_size()/2
-		mouse_pos *= scale
-		mouse_pos += player.position
-		mouse_pos /= drawing.scale
-		mouse_pos += img.get_size()/2
-		if(!prev_pixel): prev_pixel = mouse_pos
-		lines_to_draw.append([prev_pixel,mouse_pos])
-	img.lock()
 
+	var scale : Vector2 = player.get_node("Camera2D").zoom
+	mouse_pos = get_local_mouse_position()
+	mouse_pos -= get_parent_area_size()/2
+	mouse_pos *= scale
+	mouse_pos += player.position
+
+	mouse_pos /= drawing.scale
+	if(focus && Input.get_action_strength("drawing") == 1):
+		mouse_pixel = mouse_pos + img.get_size()/2
+		if(!prev_pixel): prev_pixel = mouse_pixel
+		lines_to_draw.append([prev_pixel,mouse_pixel])
+	
+	img.lock()
 	for line in lines_to_draw:
 		var diff = line[0]-line[1]
 		var length = diff.length()
@@ -66,11 +72,19 @@ func get_client_info():
 
 	lines_to_draw = []
 	img.unlock()
+
 	var new_texture = ImageTexture.new()
 	new_texture.create_from_image(img)
 	drawing.texture = new_texture
 	drawing.update()
-	
+
+	var voting:Node2D = drawing.get_node("Voting")
+	voting.update()
+	if(focus && Input.get_action_strength("vote") == 1):
+		if((mouse_pos-voting.position).length() < 40):
+			vote = player_ids[int((mouse_pos-voting.position).angle()/2/PI*players.size())]
+	if(vote > 0 && players[vote].is_dead): vote = -1
+			
 	if(focus && Input.get_action_strength("start") == 1 && !playing): start_game()
 	var killing = -1
 	if(is_impostor && !is_dead && focus && Input.is_action_just_pressed("kill")):
@@ -98,9 +112,11 @@ func get_client_info():
 		is_dead=is_dead,
 		killing=killing,
 		id=id,
-		drawing=[prev_pixel,mouse_pos]
+		drawing=[prev_pixel,mouse_pixel],
+		color=color,
+		vote=vote
 	}
-	prev_pixel = mouse_pos
+	prev_pixel = mouse_pixel
 	player.update_draw_data(data)
 	return data
 
