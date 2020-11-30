@@ -19,10 +19,12 @@ var impostors:Array = []
 var player_name: String = "jeff"
 var id:int
 
+var prev_pixel:Vector2
+
 func _ready():
-	player = get_node("ViewportContainer/Viewport/Player")
-	players_node = get_node("ViewportContainer/Viewport/Players")
 	viewport = get_node("ViewportContainer/Viewport")
+	player = viewport.get_node("Player")
+	players_node = viewport.get_node("Players")
 	rand_generate.randomize()
 	
 func _physics_process(delta):
@@ -38,6 +40,30 @@ func _on_mouse_exited():
 	focus = false
 
 func get_client_info():
+	var mouse_pos : Vector2
+	if(focus && Input.get_action_strength("drawing") == 1):
+		var scale : Vector2 = player.get_node("Camera2D").zoom
+		var drawing : Sprite = viewport.get_node("Background")
+		var img = drawing.texture.get_data()
+		mouse_pos = get_local_mouse_position()
+		mouse_pos -= get_parent_area_size()/2
+		mouse_pos *= scale
+		mouse_pos += player.position
+		mouse_pos /= drawing.scale
+		mouse_pos += img.get_size()/2
+		if(!prev_pixel): prev_pixel = mouse_pos
+		img.lock()
+		var diff = prev_pixel-mouse_pos
+		var length = diff.length()
+		for i in range(0, length):
+			var i_pix = mouse_pos + i/length*diff
+			img.set_pixel(i_pix.x, i_pix.y, Color(255, 0, 0))
+		img.unlock()
+		var new_texture = ImageTexture.new()
+		new_texture.create_from_image(img)
+		drawing.texture = new_texture
+		drawing.update()
+	prev_pixel = mouse_pos
 	if(focus && Input.get_action_strength("start") == 1 && !playing): start_game()
 	var killing = -1
 	if(is_impostor && !is_dead && focus && Input.is_action_just_pressed("kill")):

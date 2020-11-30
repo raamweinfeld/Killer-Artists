@@ -46,7 +46,7 @@ func instance_game():
 		# Set viewport size to text box size
 		game_instance.get_node("ViewportContainer").rect_size = text_edit.rect_size
 		# Stretch viewport resolution to project resolution
-		game_instance.get_node("ViewportContainer/Viewport").size = Vector2(1024, 600)
+		game_instance.get_node("ViewportContainer/Viewport").size = text_edit.rect_size
 
 
 func _disconnected():
