@@ -195,7 +195,7 @@ func start_game():
 		var l_players = player_ids
 		l_players.append(id)
 		impostors = []
-		for _i in range(settings.impostors):
+		for _i in range(min(settings.impostors,ceil(l_players.size()/2)-1)):
 			var idx = rand_generate.randi_range(0, l_players.size()-1)
 			var id = l_players[idx]
 			l_players.remove(idx)
