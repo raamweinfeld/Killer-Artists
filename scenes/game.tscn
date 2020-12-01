@@ -22,6 +22,7 @@ polygon = PoolVector2Array( -74.6667, 309.333, -74.6667, 320, 8, 402.667, 165.33
 polygon = PoolVector2Array( -18.6667, 186.667, -34.6667, 200, -13.3333, 208, 0, 197.333, 0, 208, 26.6667, 208, 26.6667, 210.667, 40, 210.667, 40, 256, 64, 266.667, 82.6667, 253.333, 82.6667, 210.667, 104, 210.667, 104, 176, 117.333, 176, 117.333, 144, 66.6667, 144, 53.3333, 136, 34.6667, 152, 29.3333, 149.333, 16, 154.667, 0, 154.667, 0, 194.667 )
 
 [sub_resource type="CircleShape2D" id=5]
+radius = 32.0
 
 [node name="Game" type="Control"]
 anchor_right = 1.0
@@ -64,23 +65,26 @@ polygon = PoolVector2Array( -74.6667, 309.333, -74.6667, 320, 8, 402.667, 165.33
 polygon = PoolVector2Array( -34.6667, 218.667, -13.3333, 229.333, 0, 218.667, 0, 245.333, 26.6667, 245.333, 26.6667, 269.333, 37.3333, 269.333, 37.3333, 285.333, 64, 296, 82.6667, 277.333, 82.6667, 266.667, 104, 266.667, 104, 245.333, 109.333, 248, 114.667, 248, 122.667, 242.667, 122.667, 226.667, 117.333, 218.667, 117.333, 144, 66.6667, 144, 53.3333, 136, 34.6667, 152, 29.3333, 149.333, 16, 154.667, 0, 154.667, 0, 194.667, -18.6667, 186.667, -34.6667, 200 )
 
 [node name="CollisionPolygon2D5" type="CollisionPolygon2D" parent="ViewportContainer/Viewport/Background/StaticBody2D"]
-polygon = PoolVector2Array( -26.6667, -181.333, 16, -181.333, 50.6667, -208, 50.6667, -240, 21.3333, -269.333, -26.6667, -269.333, -64, -245.333, -64, -213.333 )
+polygon = PoolVector2Array( -26.6667, -181.333, 16, -181.333, 50.6667, -208, 50.6667, -240, 21.3333, -269.333, -26.6667, -269.333, -61.3333, -245.333, -64, -213.333 )
 
 [node name="CollisionPolygon2D6" type="CollisionPolygon2D" parent="ViewportContainer/Viewport/Background/StaticBody2D"]
 position = Vector2( 200, 0 )
-polygon = PoolVector2Array( -26.6667, -181.333, 16, -181.333, 50.6667, -208, 50.6667, -240, 21.3333, -269.333, -26.6667, -269.333, -64, -245.333, -64, -213.333 )
+polygon = PoolVector2Array( -26.6667, -181.333, 16, -184, 50.6667, -208, 50.6667, -240, 18.6667, -266.667, -26.6667, -269.333, -64, -245.333, -64, -213.333 )
 
 [node name="CollisionPolygon2D7" type="CollisionPolygon2D" parent="ViewportContainer/Viewport/Background/StaticBody2D"]
 position = Vector2( 0, -205.333 )
-polygon = PoolVector2Array( -26.6667, -181.333, 16, -181.333, 50.6667, -208, 50.6667, -240, 21.3333, -269.333, -26.6667, -269.333, -64, -245.333, -64, -213.333 )
+polygon = PoolVector2Array( -26.6667, -181.333, 16, -181.333, 50.6667, -208, 50.6667, -240, 21.3333, -269.333, -26.6667, -269.333, -61.3333, -245.334, -64, -213.333 )
 
 [node name="CollisionPolygon2D8" type="CollisionPolygon2D" parent="ViewportContainer/Viewport/Background/StaticBody2D"]
 position = Vector2( 197.333, -208 )
-polygon = PoolVector2Array( -26.6667, -181.333, 16, -181.333, 50.6667, -208, 50.6667, -240, 21.3333, -269.333, -26.6667, -269.333, -64, -245.333, -64, -213.333 )
+polygon = PoolVector2Array( -26.6667, -181.333, 16, -181.333, 50.6667, -208, 50.6667, -240, 21.3333, -269.333, -26.6667, -269.333, -58.6663, -245.333, -64, -213.333 )
 
 [node name="CollisionPolygon2D9" type="CollisionPolygon2D" parent="ViewportContainer/Viewport/Background/StaticBody2D"]
 position = Vector2( 98.6667, -104 )
-polygon = PoolVector2Array( -26.6667, -181.333, 16, -181.333, 50.6667, -208, 50.6667, -240, 21.3333, -269.333, -26.6667, -269.333, -64, -245.333, -64, -213.333 )
+polygon = PoolVector2Array( -18.6667, -181.333, 10.6666, -181.333, 40, -194.667, 53.3333, -216, 53.3333, -237.333, 32, -258.667, 10.6666, -266.667, -18.6667, -266.667, -40, -258.667, -61.3334, -237.333, -61.3334, -216, -48, -194.667 )
+
+[node name="CollisionPolygon2D10" type="CollisionPolygon2D" parent="ViewportContainer/Viewport/Background/StaticBody2D"]
+polygon = PoolVector2Array( 261.333, 26.6667, 261.333, 74.6667, 290.667, 74.6667, 290.667, 77.3333, 325.333, 77.3333, 325.333, 74.6667, 357.333, 74.6667, 357.333, 26.6667 )
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="ViewportContainer/Viewport/Background"]
 light_mask = -2147483645
@@ -120,7 +124,6 @@ texture = ExtResource( 2 )
 script = ExtResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ViewportContainer/Viewport/Player"]
-position = Vector2( 0, 20 )
 shape = SubResource( 5 )
 
 [node name="Camera2D" type="Camera2D" parent="ViewportContainer/Viewport/Player"]
