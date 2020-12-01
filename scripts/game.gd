@@ -12,6 +12,7 @@ var logs:Array = []
 var playing:bool = false
 const settings = {impostors = 2,killLength=250}
 var is_impostor:bool = false
+var killing:int
 var is_dead:bool = false
 
 var rand_generate:RandomNumberGenerator = RandomNumberGenerator.new()
@@ -19,6 +20,7 @@ var impostors:Array = []
 var player_name: String = "jeff"
 var id:int
 var vote:int = -1
+var votes = []
 var color:Color
 
 var prev_pixel:Vector2
@@ -80,13 +82,14 @@ func get_client_info():
 
 	var voting:Node2D = drawing.get_node("Voting")
 	voting.update()
-	if(focus && Input.get_action_strength("vote") == 1):
+	if(focus && Input.is_action_just_pressed("vote")):
 		if((mouse_pos-voting.position).length() < 40):
-			vote = player_ids[int((mouse_pos-voting.position).angle()/2/PI*players.size())]
+			var idx = int(((mouse_pos-voting.position).rotated(-PI).angle()+PI)/2/PI*players.size()+0.5)
+			if(idx == player_ids.size()): idx = 0
+			vote = player_ids[idx]
 	if(vote > 0 && players[vote].is_dead): vote = -1
 			
 	if(focus && Input.get_action_strength("start") == 1 && !playing): start_game()
-	var killing = -1
 	if(is_impostor && !is_dead && focus && Input.is_action_just_pressed("kill")):
 		var minLength = 100000000000
 		for player2 in players.values():
@@ -117,6 +120,7 @@ func get_client_info():
 		vote=vote
 	}
 	prev_pixel = mouse_pixel
+	killing = -1
 	player.update_draw_data(data)
 	return data
 
@@ -145,19 +149,31 @@ func update_player(player_id, data):
 		new_player_node.light_mask = 2
 		new_player_node.set_script(load("res://scripts/draw_player.gd"))
 		players_node.add_child(new_player_node)
-	if(data.killing == id):
-		is_dead = true
+	
+	if(data.killing != -1):
 		var body:Sprite = Sprite.new()
 		body.texture = load("res://assets/player_test.png")
+		if(data.killing == id):
+			is_dead = true
+			body.position = player.position
+		else:
+			body.position = players[data.killing].pos
 		body.light_mask = 2
-		body.position = player.position
 		viewport.add_child(body)
-	elif(data.killing != -1):
-		var body:Sprite = Sprite.new()
-		body.texture = load("res://assets/player_test.png")
-		body.light_mask = 2
-		body.position = players[data.killing].pos
-		viewport.add_child(body)
+	
+	votes.erase(player_id)
+	if(data.vote == id):
+		votes.append(player_id)
+		var alive_players = 1
+		for player in players.values(): if(!player.is_dead): alive_players += 1
+		if(2*votes.size()>alive_players):
+			killing = id
+			is_dead = true
+			var body:Sprite = Sprite.new()
+			body.texture = load("res://assets/player_test.png")
+			body.light_mask = 2
+			body.position = player.position
+			viewport.add_child(body)
 	var player_node:Sprite = players_node.get_node(str(player_id))
 	player_node.position = data.pos
 	player_node.data = data
