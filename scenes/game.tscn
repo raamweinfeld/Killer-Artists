@@ -119,7 +119,7 @@ position = Vector2( 216, 272 )
 script = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="ViewportContainer/Viewport/Player"]
-light_mask = -2147483646
+light_mask = -2147483644
 texture = ExtResource( 2 )
 script = ExtResource( 5 )
 

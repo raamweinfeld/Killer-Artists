@@ -10,7 +10,11 @@ var player_ids : Array = []
 var players_node: Node
 var logs:Array = []
 var playing:bool = false
-const settings = {impostors = 2,killLength=250}
+const settings = {
+	impostors = 2,
+	killLength=250,
+	colors=[Color(0,0,0),Color(1,0,0),Color(0,1,0),Color(1,1,0),Color(0,0,1),Color(1,0,1),Color(0,1,1),Color(1,1,1)]
+}
 var is_impostor:bool = false
 var killing:int
 var is_dead:bool = false
@@ -24,6 +28,7 @@ var votes = []
 var color:Color
 
 var prev_pixel:Vector2
+var draw_color:Color = settings.colors[0]
 var lines_to_draw:Array = []
 
 func _ready():
@@ -52,16 +57,19 @@ func get_client_info():
 	var img = drawing.texture.get_data()
 
 	var scale : Vector2 = player.get_node("Camera2D").zoom
-	mouse_pos = get_local_mouse_position()
-	mouse_pos -= get_parent_area_size()/2
-	mouse_pos *= scale
-	mouse_pos += player.position
+	var mouse_screen_pos = get_local_mouse_position()
+	mouse_screen_pos -= get_parent_area_size()/2
+	mouse_screen_pos *= scale
+	mouse_pos = mouse_screen_pos + player.position
 
 	mouse_pos /= drawing.scale
 	if(focus && Input.get_action_strength("drawing") == 1):
-		mouse_pixel = mouse_pos + img.get_size()/2
-		if(!prev_pixel): prev_pixel = mouse_pixel
-		lines_to_draw.append([prev_pixel,mouse_pixel])
+		if(mouse_screen_pos.y > 130 && abs(mouse_screen_pos.x) < 60*floor(settings.colors.size()/2)+20 && (settings.colors.size()%2==1 || mouse_screen_pos.x < 60*floor((settings.colors.size()-1)/2)+20)):
+			draw_color = settings.colors[round(mouse_screen_pos.x/60)+floor(settings.colors.size()/2)]
+		else:
+			mouse_pixel = mouse_pos + img.get_size()/2
+			if(!prev_pixel): prev_pixel = mouse_pixel
+			lines_to_draw.append([prev_pixel,mouse_pixel,draw_color])
 	
 	img.lock()
 	for line in lines_to_draw:
@@ -70,7 +78,7 @@ func get_client_info():
 		length = max(1,length)
 		for i in range(0, length):
 			var i_pix = line[1] + i/length*diff
-			img.set_pixel(i_pix.x, i_pix.y, Color(255, 0, 0))
+			img.set_pixel(i_pix.x, i_pix.y, line[2])
 
 	lines_to_draw = []
 	img.unlock()
@@ -115,7 +123,7 @@ func get_client_info():
 		is_dead=is_dead,
 		killing=killing,
 		id=id,
-		drawing=[prev_pixel,mouse_pixel],
+		drawing=[prev_pixel,mouse_pixel,draw_color],
 		color=color,
 		vote=vote
 	}
