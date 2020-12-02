@@ -13,5 +13,5 @@ func _draw():
 		if(data.id == game.id):
 			var i = int(-game.settings.colors.size()/2)
 			for color in game.settings.colors:
-				draw_circle(Vector2(60*i,150),20,color)
+				draw_circle(Vector2(60*i,game.viewport.size.y*get_parent().get_node("Camera2D").zoom.y/2-40),20,color)
 				i += 1

@@ -64,7 +64,7 @@ func get_client_info():
 
 	mouse_pos /= drawing.scale
 	if(focus && Input.get_action_strength("drawing") == 1):
-		if(mouse_screen_pos.y > 130 && abs(mouse_screen_pos.x) < 60*floor(settings.colors.size()/2)+20 && (settings.colors.size()%2==1 || mouse_screen_pos.x < 60*floor((settings.colors.size()-1)/2)+20)):
+		if(mouse_screen_pos.y > viewport.size.y*player.get_node("Camera2D").zoom.y/2-60 && abs(mouse_screen_pos.x) < 60*floor(settings.colors.size()/2)+20 && (settings.colors.size()%2==1 || mouse_screen_pos.x < 60*floor((settings.colors.size()-1)/2)+20)):
 			draw_color = settings.colors[round(mouse_screen_pos.x/60)+floor(settings.colors.size()/2)]
 		else:
 			mouse_pixel = mouse_pos + img.get_size()/2

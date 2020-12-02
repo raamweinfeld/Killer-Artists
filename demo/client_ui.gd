@@ -6,6 +6,7 @@ onready var client = $Client
 const GAME = preload("res://scenes/game.tscn")
 var game_instance
 var g_id
+var text_edit
 
 func _ready():
 	client.connect("lobby_joined", self, "_lobby_joined")
@@ -38,7 +39,7 @@ func _connected(id):
 
 # Creates a game instance within the client text box
 func instance_game():
-		var text_edit = get_node("VBoxContainer/TextEdit")
+		text_edit = get_node("VBoxContainer/TextEdit")
 		# Instance game if it doesn't exist
 		if (!game_instance):
 			game_instance = GAME.instance()
@@ -48,6 +49,10 @@ func instance_game():
 		# Stretch viewport resolution to project resolution
 		game_instance.get_node("ViewportContainer/Viewport").size = text_edit.rect_size
 
+func _on_TextEdit_resized():
+	game_instance.get_node("ViewportContainer").rect_size = text_edit.rect_size
+	# Stretch viewport resolution to project resolution
+	game_instance.get_node("ViewportContainer/Viewport").size = text_edit.rect_size
 
 func _disconnected():
 	_log("Signaling server disconnected: %d - %s" % [client.code, client.reason])
