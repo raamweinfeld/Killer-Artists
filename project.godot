@@ -22,7 +22,7 @@ _global_script_class_icons={
 
 config/name="Killer Artists"
 config/description="Definitely not an Among Us clone with drawing mechanics shoehorned in."
-run/main_scene="res://demo/main.tscn"
+run/main_scene="res://demo/client_ui.tscn"
 
 [debug]
 
