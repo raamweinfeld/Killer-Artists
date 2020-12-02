@@ -1,4 +1,4 @@
-extends Node2D
+extends Sprite
 
 var data
 onready var game = get_node("../../../..")
