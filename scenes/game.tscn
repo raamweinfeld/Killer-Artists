@@ -112,6 +112,7 @@ position = Vector2( 96, -341.333 )
 script = ExtResource( 8 )
 
 [node name="Drawing" type="Sprite" parent="ViewportContainer/Viewport"]
+scale = Vector2( 3, 3 )
 
 [node name="Players" type="Node" parent="ViewportContainer/Viewport"]
 

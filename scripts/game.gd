@@ -32,6 +32,7 @@ var color:Color = Color(1,1,1)
 var prev_pixel:Vector2
 var draw_color:Color = settings.colors[0]
 var lines_to_draw:Array = []
+var img:Image = Image.new()
 
 func _ready():
 	client.connect("lobby_joined", self, "_lobby_joined")
@@ -51,6 +52,7 @@ func _ready():
 	rand_generate.randomize()
 
 	first_player = client.rtc_mp.get_peers().size() == 0
+	img.create(2000,1200,false,Image.FORMAT_RGBA8)
 
 
 func _mp_connected():
@@ -114,8 +116,7 @@ func _on_mouse_exited():
 func get_client_info():
 	var mouse_pos : Vector2
 	var mouse_pixel : Vector2
-	var drawing : Sprite = viewport.get_node("Background")
-	var img = drawing.texture.get_data()
+	var drawing : Sprite = viewport.get_node("Drawing")
 
 	var scale : Vector2 = player.get_node("Camera2D").zoom
 	var mouse_screen_pos = get_local_mouse_position()
@@ -149,7 +150,7 @@ func get_client_info():
 	drawing.texture = new_texture
 	drawing.update()
 
-	var voting:Node2D = drawing.get_node("Voting")
+	var voting:Node2D = viewport.get_node("Background/Voting")
 	voting.update()
 	if(focus && Input.is_action_just_pressed("vote")):
 		if((mouse_pos-voting.position).length() < 40):
