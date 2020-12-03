@@ -4,7 +4,7 @@ var data
 onready var game = get_node("../../../..")
 var unflipped_texture : Texture
 var flipped_texture : Texture
-var color:Color = Color(1,1,1)
+var color:Color
 var prev_pos:Vector2
 var artist = load("res://assets/KillerArtist.png")
 

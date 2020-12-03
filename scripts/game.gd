@@ -1,5 +1,7 @@
 extends Control
 
+onready var client = $Client
+
 var viewport: Viewport
 
 var focus:bool = false
@@ -25,18 +27,77 @@ var player_name: String = "jeff"
 var id:int
 var vote:int = -1
 var votes = []
-var color:Color
+var color:Color = Color(1,1,1)
 
 var prev_pixel:Vector2
 var draw_color:Color = settings.colors[0]
 var lines_to_draw:Array = []
 
 func _ready():
+	client.connect("lobby_joined", self, "_lobby_joined")
+	client.connect("lobby_sealed", self, "_lobby_sealed")
+	client.connect("connected", self, "_connected")
+	client.connect("disconnected", self, "_disconnected")
+	client.rtc_mp.connect("peer_connected", self, "_mp_peer_connected")
+	client.rtc_mp.connect("peer_disconnected", self, "_mp_peer_disconnected")
+	client.rtc_mp.connect("server_disconnected", self, "_mp_server_disconnect")
+	client.rtc_mp.connect("connection_succeeded", self, "_mp_connected")
+
+	client.start("44.238.40.224:9080", "IVOUR")
+
 	viewport = get_node("ViewportContainer/Viewport")
 	player = viewport.get_node("Player")
 	players_node = viewport.get_node("Players")
 	rand_generate.randomize()
-	color = Color(rand_generate.randf(),rand_generate.randf(),rand_generate.randf())
+
+	first_player = client.rtc_mp.get_peers().size() == 0
+
+
+func _mp_connected():
+	_log("Multiplayer is connected (I am %d)" % client.rtc_mp.get_unique_id())
+
+
+func _mp_server_disconnect():
+	_log("Multiplayer is disconnected (I am %d)" % client.rtc_mp.get_unique_id())
+
+
+func _mp_peer_connected(id: int):
+	_log("Multiplayer peer %d connected" % id)
+
+
+func _mp_peer_disconnected(id: int):
+	disconnect_peer(id)
+	_log("Multiplayer peer %d disconnected" % id)
+
+func _lobby_joined(lobby):
+	_log("Joined lobby %s" % lobby)
+
+func _lobby_sealed():
+	_log("Lobby has been sealed")
+
+
+func _connected(ids):
+	_log("Signaling server connected with ID: %d" % ids)
+	id = ids
+
+func _disconnected():
+	_log("Signaling server disconnected: %d - %s" % [client.code, client.reason])
+
+
+func _process(delta):
+	client.rtc_mp.put_var(get_client_info(), true)
+	for x in logs:
+		_log(str(x))
+	logs.clear()
+
+	client.rtc_mp.poll()
+	while client.rtc_mp.get_available_packet_count() > 0:
+		var id = client.rtc_mp.get_packet_peer()
+		var sent_data = client.rtc_mp.get_var(true)
+		update_player(id,sent_data)
+
+func _log(msg):
+	print(msg)
 	
 func _physics_process(delta):
 	if (focus):
@@ -132,15 +193,12 @@ func get_client_info():
 	player.update_draw_data(data)
 	return data
 
-func set_first_player(is_first):
-	first_player = is_first
-
 func set_id(client_id):
 	id = client_id
 
 func update_player(player_id, data):
 	players[player_id] = data
-	if(data.first_player): 
+	if(data.first_player):
 		impostors = data.impostors
 		is_impostor = impostors.has(id)
 	if(data.playing && !playing):
