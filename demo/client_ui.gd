@@ -50,9 +50,10 @@ func instance_game():
 		game_instance.get_node("ViewportContainer/Viewport").size = text_edit.rect_size
 
 func _on_TextEdit_resized():
-	game_instance.get_node("ViewportContainer").rect_size = text_edit.rect_size
-	# Stretch viewport resolution to project resolution
-	game_instance.get_node("ViewportContainer/Viewport").size = text_edit.rect_size
+	if(game_instance):
+		game_instance.get_node("ViewportContainer").rect_size = text_edit.rect_size
+		# Stretch viewport resolution to project resolution
+		game_instance.get_node("ViewportContainer/Viewport").size = text_edit.rect_size
 
 func _disconnected():
 	_log("Signaling server disconnected: %d - %s" % [client.code, client.reason])
