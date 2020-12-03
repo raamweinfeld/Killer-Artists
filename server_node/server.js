@@ -142,7 +142,19 @@ function joinLobby (peer, pLobby) {
 		console.log(`Open lobbies: ${lobbies.size}`);
 	}
 	const lobby = lobbies.get(lobbyName);
-	if (!lobby) throw new ProtoError(4000, STR_LOBBY_DOES_NOT_EXISTS);
+	if (!lobby){
+		if (lobbies.size >= MAX_LOBBIES) {
+			throw new ProtoError(4000, STR_TOO_MANY_LOBBIES);
+		}
+		// Peer must not already be in a lobby
+		if (peer.lobby !== "") {
+			throw new ProtoError(4000, STR_ALREADY_IN_LOBBY);
+		}
+		lobbies.set(lobbyName, new Lobby(lobbyName, peer.id));
+		console.log(`Peer ${peer.id} created lobby ${lobbyName}`);
+		console.log(`Open lobbies: ${lobbies.size}`);
+		lobby = lobbies.get(lobbyName)
+	}
 	if (lobby.sealed) throw new ProtoError(4000, STR_LOBBY_IS_SEALED);
 	peer.lobby = lobbyName;
 	console.log(`Peer ${peer.id} joining lobby ${lobbyName} ` +

@@ -52,6 +52,7 @@ func _ready():
 	rand_generate.randomize()
 
 	first_player = client.rtc_mp.get_peers().size() == 0
+	set_color()
 	img.create(2000,1200,false,Image.FORMAT_RGBA8)
 
 
@@ -65,11 +66,13 @@ func _mp_server_disconnect():
 
 func _mp_peer_connected(id: int):
 	_log("Multiplayer peer %d connected" % id)
+	set_color()
 
 
 func _mp_peer_disconnected(id: int):
 	disconnect_peer(id)
 	_log("Multiplayer peer %d disconnected" % id)
+	set_color()
 
 func _lobby_joined(lobby):
 	_log("Joined lobby %s" % lobby)
@@ -85,6 +88,11 @@ func _connected(ids):
 func _disconnected():
 	_log("Signaling server disconnected: %d - %s" % [client.code, client.reason])
 
+func set_color():
+	var player_id_idx = client.rtc_mp.get_peers().keys()
+	player_id_idx.append(id)
+	player_id_idx.sort()
+	color = settings.colors[player_id_idx.find(id)]
 
 func _process(delta):
 	client.rtc_mp.put_var(get_client_info(), true)
