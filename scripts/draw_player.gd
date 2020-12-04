@@ -8,20 +8,32 @@ var color:Color = Color(0,0,0,0)
 var prev_pos:Vector2
 var artist = load("res://assets/KillerArtist.png")
 
+var font = DynamicFont.new()
+var name_font = DynamicFont.new()
+
+func _ready():
+	var data = DynamicFontData.new()
+	data.font_path = "res://assets/UbuntuMono-B.ttf"
+	font.font_data = data
+	name_font.font_data = data
+	font.size = 60
+	name_font.size = 30
 func _draw():
-	var default_font = Control.new().get_font("font")
 	if(data):
 		if(color != data.color):
 			color = data.color
 			update_texture()
-		if((data.pos-prev_pos).x > 0): texture = unflipped_texture
-		if((data.pos-prev_pos).x < 0): texture = flipped_texture
+		if((data.pos-prev_pos).x > 0.1): texture = unflipped_texture
+		if((data.pos-prev_pos).x < -0.1): texture = flipped_texture
 		prev_pos = data.pos
 		if(data.player_name):
 			visible = game.is_dead || !data.is_dead
-			var width = default_font.get_string_size(data.player_name).x
-			draw_string(default_font, Vector2(-width/2, -64), data.player_name,Color(1,0,0) if data.is_impostor && (game.is_impostor || game.is_dead) else Color(1,1,1))
+			var width = name_font.get_string_size(data.player_name).x
+			draw_string(name_font, Vector2(-width/2, -64), data.player_name,Color(1,0,0) if data.is_impostor && (game.is_impostor || game.is_dead) else Color(1,1,1))
 		if(data.id == game.id):
+			if(!data.playing):
+				var width = font.get_string_size(data.code).x
+				draw_string(font, Vector2(-width/2, get_viewport().size.y*get_parent().get_node("Camera2D").zoom.y/2-80), data.code, Color(1,1,1))
 			var i = int(-game.settings.colors.size()/2)
 			for draw_color in game.settings.colors:
 				draw_circle(Vector2(60*i,get_viewport().size.y*get_parent().get_node("Camera2D").zoom.y/2-40),20,draw_color)

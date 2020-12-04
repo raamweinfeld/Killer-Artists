@@ -23,6 +23,7 @@ var rand_generate:RandomNumberGenerator = RandomNumberGenerator.new()
 var impostors:Array = []
 var player_name: String = ""
 var id:int
+var code:String = ""
 var vote:int = -1
 var votes = []
 var color:Color = Color(1,1,1)
@@ -76,6 +77,7 @@ func _mp_peer_disconnected(id: int):
 
 func _lobby_joined(lobby):
 	_log("Joined lobby %s" % lobby)
+	code = lobby
 
 func _lobby_sealed():
 	_log("Lobby has been sealed")
@@ -197,6 +199,7 @@ func get_client_info():
 	}
 	prev_pixel = mouse_pixel
 	killing = -1
+	data.code = code
 	player.update_draw_data(data)
 	return data
 
