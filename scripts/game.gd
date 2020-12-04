@@ -120,14 +120,13 @@ func get_client_info():
 	var drawing : Sprite = $Drawing
 
 	var scale : Vector2 = player.get_node("Camera2D").zoom
-	var mouse_screen_pos = get_local_mouse_position()
-	mouse_screen_pos -= get_parent_area_size()/2
-	mouse_screen_pos *= scale
-	mouse_pos = mouse_screen_pos + player.position
+	var mouse_screen_pos = player.get_local_mouse_position()
+	mouse_pos = get_global_mouse_position()
 
 	mouse_pos /= drawing.scale
 	if(Input.get_action_strength("drawing") == 1):
-		if(mouse_screen_pos.y > get_viewport().size.y*player.get_node("Camera2D").zoom.y/2-60 && abs(mouse_screen_pos.x) < 60*floor(settings.colors.size()/2)+20 && (settings.colors.size()%2==1 || mouse_screen_pos.x < 60*floor((settings.colors.size()-1)/2)+20)):
+		print(mouse_screen_pos)
+		if(mouse_screen_pos.y > get_viewport().size.y*scale.y/2-60 && abs(mouse_screen_pos.x) < 60*floor(settings.colors.size()/2)+20 && (settings.colors.size()%2==1 || mouse_screen_pos.x < 60*floor((settings.colors.size()-1)/2)+20)):
 			draw_color = settings.colors[round(mouse_screen_pos.x/60)+floor(settings.colors.size()/2)]
 		else:
 			mouse_pixel = mouse_pos + img.get_size()/2
