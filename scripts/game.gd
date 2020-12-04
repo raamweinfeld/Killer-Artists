@@ -47,7 +47,8 @@ func _ready():
 	players_node = get_node("Players")
 	rand_generate.randomize()
 
-	img.create(2000,1200,false,Image.FORMAT_RGBA8)
+
+	img.create($Background.texture.get_size().x, $Background.texture.get_size().y,false,Image.FORMAT_RGBA8)
 	
 	
 func init_client(name, ip, port, code):
