@@ -8,16 +8,21 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "",
+"class": "GitAPI",
+"language": "NativeScript",
+"path": "res://git_api.gdns"
+} ]
 _global_script_class_icons={
-
+"GitAPI": ""
 }
 
 [application]
 
 config/name="Killer Artists"
 config/description="Definitely not an Among Us clone with drawing mechanics shoehorned in."
-run/main_scene="res://scenes/game.tscn"
+run/main_scene="res://scenes/menu.tscn"
 
 [debug]
 
@@ -33,7 +38,7 @@ window/stretch/aspect="expand"
 
 [gdnative]
 
-singletons=[ "res://webrtc/webrtc.tres" ]
+singletons=[ "res://git_api.gdnlib", "res://webrtc/webrtc.tres" ]
 singletons_disabled=[  ]
 
 [input]

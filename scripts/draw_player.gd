@@ -1,7 +1,7 @@
 extends Sprite
 
 var data
-onready var game = get_node("../../../..")
+onready var game = owner
 var unflipped_texture : Texture
 var flipped_texture : Texture
 var color:Color = Color(0,0,0,0)
@@ -24,7 +24,7 @@ func _draw():
 		if(data.id == game.id):
 			var i = int(-game.settings.colors.size()/2)
 			for draw_color in game.settings.colors:
-				draw_circle(Vector2(60*i,game.viewport.size.y*get_parent().get_node("Camera2D").zoom.y/2-40),20,draw_color)
+				draw_circle(Vector2(60*i,get_viewport().size.y*get_parent().get_node("Camera2D").zoom.y/2-40),20,draw_color)
 				i += 1
 
 func update_texture():
