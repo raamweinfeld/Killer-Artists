@@ -16,7 +16,7 @@ var playing:bool = false
 const settings = {
 	impostors = 2,
 	killLength=250,
-	colors=[Color(0,0,0),Color(1,0,0),Color(0,1,0),Color(1,1,0),Color(0,0,1),Color(1,0,1),Color(0,1,1),Color(1,1,1)]
+	colors=[Color(1,0,0),Color(0,1,0),Color(1,1,0),Color(0,0,1),Color(1,0,1),Color(0,1,1),Color(1,1,1),Color(0,0,0)]
 }
 var is_impostor:bool = false
 var killing:int
