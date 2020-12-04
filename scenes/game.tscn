@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://assets/map_proto.png" type="Texture" id=1]
 [ext_resource path="res://assets/KillerArtist.png" type="Texture" id=2]
@@ -11,7 +11,22 @@
 [ext_resource path="res://client/multiplayer_client.gd" type="Script" id=9]
 
 [sub_resource type="OccluderPolygon2D" id=1]
-polygon = PoolVector2Array( 208, 260, 24, 260, 24, 132, 308, 132, 308, 260, 272, 260, 272, 272, 344, 272, 344, -384, 236, -384, 236, -372, 308, -372, 308, 112, 120, 112, 120, 36, -8, 36, -8, -28, -20, -28, -20, 272, 208, 272 )
+polygon = PoolVector2Array( 208, 260, 24, 260, 24, 132, 308, 132, 308, 260, 272, 260, 272, 272, 344, 272, 344, -384, 236, -384, 236, -368, 308, -368, 308, 112, 120, 112, 120, 36, -8, 36, -8, -28, -20, -28, -20, 272, 208, 272 )
+
+[sub_resource type="OccluderPolygon2D" id=3]
+polygon = PoolVector2Array( 184, 48, 244, 48, 244, -172, 96, -172, 96, -368, 172, -368, 172, -384, -20, -384, -20, -96, -8, -96, -8, -160, 204, -160, 204, 36, 184, 36 )
+
+[sub_resource type="OccluderPolygon2D" id=4]
+polygon = PoolVector2Array( -468, -252, -412, -252, -412, -384, -84, -384, -84, -96, -104, -96, -104, -364, -392, -364, -392, -184, -468, -184 )
+
+[sub_resource type="OccluderPolygon2D" id=5]
+polygon = PoolVector2Array( -464, -112, -464, 272, -84, 272, -84, 224, -112, 224, -112, 260, -336, 260, -336, 112, -112, 112, -112, 152, -84, 152, -84, -24, -104, -24, -104, 96, -392, 96, -392, -112 )
+
+[sub_resource type="OccluderPolygon2D" id=6]
+polygon = PoolVector2Array( 408, 72, 428, 72, 428, 252, 608, 252, 608, -72, 780, -72, 780, 0, 636, 0, 636, 252, 720, 252, 720, 272, 408, 272 )
+
+[sub_resource type="OccluderPolygon2D" id=7]
+polygon = PoolVector2Array( -552, -72, -552, -236, -816, -236, -816, 12, -552, 12, -552, 0, -532, 0, -532, 124, -552, 124, -552, 44, -772, 44, -772, 264, -552, 264, -552, 192, -536, 192, -536, 344, -140, 344, -140, 372, -228, 372, -228, 568, -36, 568, -36, 368, -76, 368, -76, 344, 344, 344, 344, 368, 20, 368, 20, 568, 444, 568, 444, 344, 780, 344, 780, 252, 872, 252, 872, 0, 848, 0, 848, -160, 428, -160, 428, 0, 408, 0, 408, -312, 428, -312, 428, -196, 716, -196, 712, -452, 428, -452, 428, -384, 408, -384, 408, -452, -408, -452, -408, -588, -876, -588, -876, -256, -532, -256, -532, -72 )
 
 [sub_resource type="CircleShape2D" id=2]
 radius = 32.0
@@ -37,6 +52,7 @@ position = Vector2( 96, -341.333 )
 script = ExtResource( 8 )
 
 [node name="Colliders" type="StaticBody2D" parent="Background"]
+visible = false
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Background/Colliders"]
 polygon = PoolVector2Array( 272, 260, 272, 296, 344, 296, 344, -384, 236, -384, 236, -340, 308, -340, 308, 112, 120, 112, 120, 36, -8, 36, -8, -28, -20, -28, -20, 296, 208, 296, 208, 260, 24, 260, 24, 156, 308, 156, 308, 260 )
@@ -57,10 +73,24 @@ polygon = PoolVector2Array( 408, 68, 428, 68, 428, 252, 608, 252, 608, -72, 780,
 polygon = PoolVector2Array( -552, -72, -552, -208, -816, -208, -816, 12, -552, 12, -552, 0, -532, 0, -532, 124, -552, 124, -552, 72, -772, 72, -772, 268, -552, 268, -552, 192, -536, 192, -536, 344, -144, 344, -144, 396, -228, 396, -228, 568, -36, 568, -36, 368, -76, 368, -76, 344, 344, 344, 344, 396, 24, 396, 24, 568, 444, 568, 444, 344, 780, 344, 780, 252, 872, 252, 872, 0, 848, 0, 848, -136, 428, -136, 428, 0, 408, 0, 408, -312, 428, -312, 428, -196, 712, -196, 712, -428, 428, -428, 428, -384, 408, -384, 408, -428, -412, -428, -412, -536, -876, -536, -876, -256, -944, -256, -944, -632, 936, -640, 936, 644, -948, 644, -944, -244, -876, -244, -876, -244, -876, -256, -532, -256, -532, -72 )
 
 [node name="LightOccluders" type="Node2D" parent="Background"]
-visible = false
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="Background/LightOccluders"]
 occluder = SubResource( 1 )
+
+[node name="LightOccluder2D2" type="LightOccluder2D" parent="Background/LightOccluders"]
+occluder = SubResource( 3 )
+
+[node name="LightOccluder2D3" type="LightOccluder2D" parent="Background/LightOccluders"]
+occluder = SubResource( 4 )
+
+[node name="LightOccluder2D4" type="LightOccluder2D" parent="Background/LightOccluders"]
+occluder = SubResource( 5 )
+
+[node name="LightOccluder2D5" type="LightOccluder2D" parent="Background/LightOccluders"]
+occluder = SubResource( 6 )
+
+[node name="LightOccluder2D6" type="LightOccluder2D" parent="Background/LightOccluders"]
+occluder = SubResource( 7 )
 
 [node name="Drawing" type="Sprite" parent="."]
 light_mask = 2
