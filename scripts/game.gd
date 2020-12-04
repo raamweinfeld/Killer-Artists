@@ -1,6 +1,7 @@
 extends Control
 
-onready var client = $Client
+var client
+var connected:bool = false
 
 var viewport: Viewport
 
@@ -35,6 +36,7 @@ var lines_to_draw:Array = []
 var img:Image = Image.new()
 
 func _ready():
+	client = $Client
 	client.connect("lobby_joined", self, "_lobby_joined")
 	client.connect("lobby_sealed", self, "_lobby_sealed")
 	client.connect("connected", self, "_connected")
@@ -44,15 +46,13 @@ func _ready():
 	client.rtc_mp.connect("server_disconnected", self, "_mp_server_disconnect")
 	client.rtc_mp.connect("connection_succeeded", self, "_mp_connected")
 
-	client.start("44.238.40.224:9080", "IVOUR")
+	client.start("44.238.40.224:9080")
 
 	viewport = get_node("ViewportContainer/Viewport")
 	player = viewport.get_node("Player")
 	players_node = viewport.get_node("Players")
 	rand_generate.randomize()
 
-	first_player = client.rtc_mp.get_peers().size() == 0
-	set_color()
 	img.create(2000,1200,false,Image.FORMAT_RGBA8)
 
 
@@ -83,7 +83,11 @@ func _lobby_sealed():
 
 func _connected(ids):
 	_log("Signaling server connected with ID: %d" % ids)
+	connected = true
 	id = ids
+
+	first_player = client.rtc_mp.get_peers().size() == 0
+	set_color()
 
 func _disconnected():
 	_log("Signaling server disconnected: %d - %s" % [client.code, client.reason])
@@ -95,16 +99,17 @@ func set_color():
 	color = settings.colors[player_id_idx.find(id)]
 
 func _process(delta):
-	client.rtc_mp.put_var(get_client_info(), true)
-	for x in logs:
-		_log(str(x))
-	logs.clear()
+	if(connected):
+		client.rtc_mp.put_var(get_client_info(), true)
+		for x in logs:
+			_log(str(x))
+		logs.clear()
 
-	client.rtc_mp.poll()
-	while client.rtc_mp.get_available_packet_count() > 0:
-		var id = client.rtc_mp.get_packet_peer()
-		var sent_data = client.rtc_mp.get_var(true)
-		update_player(id,sent_data)
+		client.rtc_mp.poll()
+		while client.rtc_mp.get_available_packet_count() > 0:
+			var id = client.rtc_mp.get_packet_peer()
+			var sent_data = client.rtc_mp.get_var(true)
+			update_player(id,sent_data)
 
 func _log(msg):
 	print(msg)

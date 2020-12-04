@@ -33,6 +33,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Client" type="Node" parent="."]
+script = ExtResource( 9 )
+
 [node name="ViewportContainer" type="ViewportContainer" parent="."]
 margin_right = 1024.0
 margin_bottom = 600.0
@@ -112,6 +115,7 @@ position = Vector2( 96, -341.333 )
 script = ExtResource( 8 )
 
 [node name="Drawing" type="Sprite" parent="ViewportContainer/Viewport"]
+light_mask = 2
 scale = Vector2( 3, 3 )
 
 [node name="Players" type="Node" parent="ViewportContainer/Viewport"]
@@ -145,8 +149,5 @@ mode = 3
 range_item_cull_mask = 2
 shadow_enabled = true
 shadow_item_cull_mask = 2
-
-[node name="Client" type="Node" parent="."]
-script = ExtResource( 9 )
 [connection signal="mouse_entered" from="ViewportContainer" to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="ViewportContainer" to="." method="_on_mouse_exited"]
