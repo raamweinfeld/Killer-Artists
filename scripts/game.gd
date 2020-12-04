@@ -3,9 +3,6 @@ extends Control
 var client
 var connected:bool = false
 
-var viewport: Viewport
-
-var focus:bool = false
 var player:KinematicBody2D
 var first_player:bool
 var players = {}
@@ -24,7 +21,7 @@ var is_dead:bool = false
 
 var rand_generate:RandomNumberGenerator = RandomNumberGenerator.new()
 var impostors:Array = []
-var player_name: String = "jeff"
+var player_name: String = ""
 var id:int
 var vote:int = -1
 var votes = []
@@ -46,15 +43,15 @@ func _ready():
 	client.rtc_mp.connect("server_disconnected", self, "_mp_server_disconnect")
 	client.rtc_mp.connect("connection_succeeded", self, "_mp_connected")
 
-	client.start("44.238.40.224:9080")
-
-	viewport = get_node("ViewportContainer/Viewport")
-	player = viewport.get_node("Player")
-	players_node = viewport.get_node("Players")
+	player = $Player
+	players_node = $Players
 	rand_generate.randomize()
 
 	img.create(2000,1200,false,Image.FORMAT_RGBA8)
 
+func init_client(name, ip, port, code):
+	player_name = name
+	client.start(ip + ":" + port)
 
 func _mp_connected():
 	_log("Multiplayer is connected (I am %d)" % client.rtc_mp.get_unique_id())
@@ -115,21 +112,12 @@ func _log(msg):
 	print(msg)
 	
 func _physics_process(delta):
-	if (focus):
-		player.move(delta)
-
-# Button input inside viewports is broken, so "focus" is determined
-# by hovering the mouse over the viewport
-func _on_mouse_entered():
-	focus = true
-
-func _on_mouse_exited():
-	focus = false
+	player.move(delta)
 
 func get_client_info():
 	var mouse_pos : Vector2
 	var mouse_pixel : Vector2
-	var drawing : Sprite = viewport.get_node("Drawing")
+	var drawing : Sprite = $Drawing
 
 	var scale : Vector2 = player.get_node("Camera2D").zoom
 	var mouse_screen_pos = get_local_mouse_position()
@@ -138,8 +126,8 @@ func get_client_info():
 	mouse_pos = mouse_screen_pos + player.position
 
 	mouse_pos /= drawing.scale
-	if(focus && Input.get_action_strength("drawing") == 1):
-		if(mouse_screen_pos.y > viewport.size.y*player.get_node("Camera2D").zoom.y/2-60 && abs(mouse_screen_pos.x) < 60*floor(settings.colors.size()/2)+20 && (settings.colors.size()%2==1 || mouse_screen_pos.x < 60*floor((settings.colors.size()-1)/2)+20)):
+	if(Input.get_action_strength("drawing") == 1):
+		if(mouse_screen_pos.y > get_viewport().size.y*player.get_node("Camera2D").zoom.y/2-60 && abs(mouse_screen_pos.x) < 60*floor(settings.colors.size()/2)+20 && (settings.colors.size()%2==1 || mouse_screen_pos.x < 60*floor((settings.colors.size()-1)/2)+20)):
 			draw_color = settings.colors[round(mouse_screen_pos.x/60)+floor(settings.colors.size()/2)]
 		else:
 			mouse_pixel = mouse_pos + img.get_size()/2
@@ -163,17 +151,17 @@ func get_client_info():
 	drawing.texture = new_texture
 	drawing.update()
 
-	var voting:Node2D = viewport.get_node("Background/Voting")
+	var voting:Node2D = $Background/Voting
 	voting.update()
-	if(focus && Input.is_action_just_pressed("vote")):
+	if(Input.is_action_just_pressed("vote")):
 		if((mouse_pos-voting.position).length() < 40):
 			var idx = int(((mouse_pos-voting.position).rotated(-PI).angle()+PI)/2/PI*players.size()+0.5)
 			if(idx == player_ids.size()): idx = 0
 			vote = player_ids[idx]
 	if(vote > 0 && players[vote].is_dead): vote = -1
 			
-	if(focus && Input.get_action_strength("start") == 1 && !playing): start_game()
-	if(is_impostor && !is_dead && focus && Input.is_action_just_pressed("kill")):
+	if(Input.get_action_strength("start") == 1 && !playing): start_game()
+	if(is_impostor && !is_dead && Input.is_action_just_pressed("kill")):
 		var minLength = 100000000000
 		for player2 in players.values():
 			var length = (player2.pos-player.position).length()
@@ -186,7 +174,7 @@ func get_client_info():
 			body.texture = load("res://assets/player_test.png")
 			body.light_mask = 2
 			body.position = players[killing].pos
-			viewport.add_child(body)
+			add_child(body)
 			player.position = players[killing].pos
 	var data = {
 		pos=player.position,
@@ -239,7 +227,7 @@ func update_player(player_id, data):
 		else:
 			body.position = players[data.killing].pos
 		body.light_mask = 2
-		viewport.add_child(body)
+		add_child(body)
 	
 	votes.erase(player_id)
 	if(data.vote == id):
@@ -253,7 +241,7 @@ func update_player(player_id, data):
 			body.texture = load("res://assets/player_test.png")
 			body.light_mask = 2
 			body.position = player.position
-			viewport.add_child(body)
+			add_child(body)
 	var player_node:Sprite = players_node.get_node(str(player_id))
 	player_node.position = data.pos
 	player_node.data = data
