@@ -125,14 +125,18 @@ func get_client_info():
 	var mouse_screen_pos = player.get_local_mouse_position()
 	mouse_pos = get_global_mouse_position()
 
-	mouse_pos /= drawing.scale
 	if(Input.get_action_strength("drawing") == 1):
 		if(mouse_screen_pos.y > get_viewport().size.y*scale.y/2-60 && abs(mouse_screen_pos.x) < 60*floor(settings.colors.size()/2)+20 && (settings.colors.size()%2==1 || mouse_screen_pos.x < 60*floor((settings.colors.size()-1)/2)+20)):
 			draw_color = settings.colors[round(mouse_screen_pos.x/60)+floor(settings.colors.size()/2)]
 		else:
-			mouse_pixel = mouse_pos + img.get_size()/2
-			if(!prev_pixel): prev_pixel = mouse_pixel
-			lines_to_draw.append([prev_pixel,mouse_pixel,draw_color])
+			var ray_cast = player.get_node("RayCast2D")
+			ray_cast.cast_to = mouse_pos - player.position
+			print(ray_cast.cast_to)
+			ray_cast.force_raycast_update()
+			if(!ray_cast.is_colliding() && ray_cast.cast_to.length() < 500):
+				mouse_pixel = mouse_pos / drawing.scale + img.get_size()/2
+				if(!prev_pixel): prev_pixel = mouse_pixel
+				lines_to_draw.append([prev_pixel,mouse_pixel,draw_color])
 	
 	img.lock()
 	for line in lines_to_draw:

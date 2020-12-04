@@ -7,6 +7,7 @@ func _ready():
 	anchor($Title, 0.5, 0.4)
 	anchor($Host, 0.5, 0.6)
 	anchor($Join, 0.5, 0.7)
+	anchor($Local, 0.5, 0.8)
 	anchor($CodeField, 0.55, 0.7)
 	anchor($NameField, 0.5, 0.1)
 
@@ -19,6 +20,11 @@ func _on_join():
 	game = game_scene.instance()
 	add_child(game)
 	game.init_client($NameField.text, "44.238.40.224", "9080", $CodeField.text)
+
+func _on_local():
+	game = game_scene.instance()
+	add_child(game)
+	game.init_client($NameField.text, "ws://localhost", "9080", "")
 
 func anchor(control, x, y):
 	control.anchor_left = x
