@@ -1,7 +1,7 @@
 extends Sprite
 
 var data
-onready var game = owner
+onready var game = get_parent().get_parent()
 var unflipped_texture : Texture
 var flipped_texture : Texture
 var color:Color = Color(0,0,0,0)
@@ -18,6 +18,7 @@ func _ready():
 	name_font.font_data = data
 	font.size = 60
 	name_font.size = 30
+	
 func _draw():
 	if(data):
 		if(color != data.color):
