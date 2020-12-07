@@ -60,7 +60,7 @@ func _ready():
 	
 func init_client(name, ip, port, code):
 	player_name = name
-	client.start(ip + ":" + port,code)
+	client.start(ip + ":" + port, code)
 
 
 func _mp_connected():

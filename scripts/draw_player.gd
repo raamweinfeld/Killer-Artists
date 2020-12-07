@@ -18,6 +18,7 @@ func _ready():
 	name_font.font_data = data
 	font.size = 60
 	name_font.size = 30
+	
 func _draw():
 	if(data):
 		if(color != data.color):
