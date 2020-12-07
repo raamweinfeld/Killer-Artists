@@ -155,7 +155,7 @@ zoom = Vector2( 2, 2 )
 [node name="Light2D" type="Light2D" parent="Player"]
 texture = ExtResource( 6 )
 texture_scale = 4.23
-energy = 5.0
+energy = 2.0
 shadow_enabled = true
 
 [node name="Light2D2" type="Light2D" parent="Player"]

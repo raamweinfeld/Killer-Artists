@@ -1,7 +1,6 @@
 extends Node
 
 var game_scene = load("res://scenes/game.tscn")
-var multi_game_scene = load("res://scenes/multiclient.tscn")
 var game
 
 func _ready():
