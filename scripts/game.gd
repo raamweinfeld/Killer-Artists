@@ -34,7 +34,8 @@ var prev_pixel:Vector2
 var draw_color:Color = settings.colors[0]
 var lines_to_draw:Array = []
 var img:Image = Image.new()
-var focus: bool = true
+var drawing : Sprite
+var new_texture = ImageTexture.new()
 
 func _ready():
 	client = $Client
@@ -49,10 +50,12 @@ func _ready():
 
 	player = get_node("Player")
 	players_node = get_node("Players")
+	drawing = get_node("Drawing")
 	rand_generate.randomize()
 
 
 	img.create($Background.texture.get_size().x, $Background.texture.get_size().y,false,Image.FORMAT_RGBA8)
+	new_texture.create_from_image(img)
 	
 	
 func init_client(name, ip, port, code):
@@ -126,13 +129,12 @@ func _physics_process(delta):
 func get_client_info():
 	var mouse_pos : Vector2
 	var mouse_pixel : Vector2
-	var drawing : Sprite = get_node("Drawing")
 
 	var scale : Vector2 = player.get_node("Camera2D").zoom
 	var mouse_screen_pos = player.get_local_mouse_position()
 	mouse_pos = get_global_mouse_position()
 
-	if(Input.get_action_strength("drawing") == 1 && focus):
+	if(Input.get_action_strength("drawing") == 1):
 		if(mouse_screen_pos.y > get_viewport().size.y*scale.y/2-60 && abs(mouse_screen_pos.x) < 60*floor(settings.colors.size()/2)+20 && (settings.colors.size()%2==1 || mouse_screen_pos.x < 60*floor((settings.colors.size()-1)/2)+20)):
 			draw_color = settings.colors[round(mouse_screen_pos.x/60)+floor(settings.colors.size()/2)]
 		else:
@@ -144,22 +146,22 @@ func get_client_info():
 				if(!prev_pixel): prev_pixel = mouse_pixel
 				lines_to_draw.append([prev_pixel,mouse_pixel,draw_color])
 	
-	img.lock()
-	for line in lines_to_draw:
-		var diff = line[0]-line[1]
-		var length = diff.length()
-		length = max(1,length)
-		for i in range(0, length):
-			var i_pix = line[1] + i/length*diff
-			img.set_pixel(i_pix.x, i_pix.y, line[2])
+	if(lines_to_draw.size() > 0):
+		img.lock()
+		for line in lines_to_draw:
+			var diff = line[0]-line[1]
+			var length = diff.length()
+			length = max(1,length)
+			for i in range(0, length+1):
+				var i_pix = line[1] + i/length*diff
+				img.set_pixel(i_pix.x, i_pix.y, line[2])
 
-	lines_to_draw = []
-	img.unlock()
+		lines_to_draw = []
+		img.unlock()
 
-	var new_texture = ImageTexture.new()
-	new_texture.create_from_image(img)
-	drawing.texture = new_texture
-	drawing.update()
+		new_texture.create_from_image(img)
+		drawing.texture = new_texture
+		drawing.update()
 
 	var voting:Node2D = get_node("Background/Voting")
 	voting.update()
