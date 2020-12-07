@@ -1,6 +1,7 @@
 extends Node
 
 var game_scene = load("res://scenes/game.tscn")
+var multi_game_scene = load("res://scenes/multiclient.tscn")
 var game
 
 func _ready():
@@ -8,7 +9,9 @@ func _ready():
 	anchor($Host, 0.5, 0.6)
 	anchor($Join, 0.5, 0.7)
 	anchor($Local, 0.5, 0.8)
+	anchor($LocalJoin, 0.45, 0.9)
 	anchor($CodeField, 0.55, 0.7)
+	anchor($LocalCodeField, 0.55, 0.9)
 	anchor($NameField, 0.5, 0.1)
 
 func _on_host():
@@ -25,6 +28,11 @@ func _on_local():
 	game = game_scene.instance()
 	add_child(game)
 	game.init_client($NameField.text, "ws://localhost", "9080", "")
+
+func _on_local_join():
+	game = game_scene.instance()
+	add_child(game)
+	game.init_client($NameField.text, "ws://localhost", "9080", $LocalCodeField.text)
 
 func anchor(control, x, y):
 	control.anchor_left = x

@@ -13,10 +13,12 @@ var playing:bool = false
 const settings = {
 	impostors = 2,
 	killLength=250,
+	kill_cooldown=25,
 	colors=[Color(1,0,0),Color(0,1,0),Color(1,1,0),Color(0,0,1),Color(1,0,1),Color(0,1,1),Color(1,1,1),Color(0,0,0)]
 }
 var is_impostor:bool = false
 var killing:int
+var kill_cooldown:float = 0
 var is_dead:bool = false
 
 var rand_generate:RandomNumberGenerator = RandomNumberGenerator.new()
@@ -32,6 +34,7 @@ var prev_pixel:Vector2
 var draw_color:Color = settings.colors[0]
 var lines_to_draw:Array = []
 var img:Image = Image.new()
+var focus: bool = true
 
 func _ready():
 	client = $Client
@@ -54,7 +57,7 @@ func _ready():
 	
 func init_client(name, ip, port, code):
 	player_name = name
-	client.start(ip + ":" + port)
+	client.start(ip + ":" + port,code)
 
 
 func _mp_connected():
@@ -101,6 +104,7 @@ func set_color():
 	color = settings.colors[player_id_idx.find(id)]
 
 func _process(delta):
+	kill_cooldown -= delta
 	if(connected):
 		client.rtc_mp.put_var(get_client_info(), true)
 		for x in logs:
@@ -128,13 +132,12 @@ func get_client_info():
 	var mouse_screen_pos = player.get_local_mouse_position()
 	mouse_pos = get_global_mouse_position()
 
-	if(Input.get_action_strength("drawing") == 1):
+	if(Input.get_action_strength("drawing") == 1 && focus):
 		if(mouse_screen_pos.y > get_viewport().size.y*scale.y/2-60 && abs(mouse_screen_pos.x) < 60*floor(settings.colors.size()/2)+20 && (settings.colors.size()%2==1 || mouse_screen_pos.x < 60*floor((settings.colors.size()-1)/2)+20)):
 			draw_color = settings.colors[round(mouse_screen_pos.x/60)+floor(settings.colors.size()/2)]
 		else:
 			var ray_cast = player.get_node("RayCast2D")
 			ray_cast.cast_to = mouse_pos - player.position
-			print(ray_cast.cast_to)
 			ray_cast.force_raycast_update()
 			if(!ray_cast.is_colliding() && ray_cast.cast_to.length() < 500):
 				mouse_pixel = mouse_pos / drawing.scale + img.get_size()/2
@@ -168,7 +171,7 @@ func get_client_info():
 	if(vote > 0 && players[vote].is_dead): vote = -1
 			
 	if(Input.get_action_strength("start") == 1 && !playing): start_game()
-	if(is_impostor && !is_dead && Input.is_action_just_pressed("kill")):
+	if(is_impostor && !is_dead && Input.is_action_just_pressed("kill") && kill_cooldown < 0):
 		var minLength = 100000000000
 		for player2 in players.values():
 			var length = (player2.pos-player.position).length()
@@ -183,6 +186,7 @@ func get_client_info():
 			body.position = players[killing].pos
 			add_child(body)
 			player.position = players[killing].pos
+			kill_cooldown = settings.kill_cooldown
 	var data = {
 		pos=player.position,
 		first_player=first_player,
@@ -200,6 +204,7 @@ func get_client_info():
 	prev_pixel = mouse_pixel
 	killing = -1
 	data.code = code
+	data.kill_cooldown = kill_cooldown
 	player.update_draw_data(data)
 	return data
 

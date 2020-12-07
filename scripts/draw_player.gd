@@ -1,7 +1,7 @@
 extends Sprite
 
 var data
-onready var game = owner
+onready var game = get_parent().get_parent()
 var unflipped_texture : Texture
 var flipped_texture : Texture
 var color:Color = Color(0,0,0,0)
@@ -34,6 +34,10 @@ func _draw():
 			if(!data.playing):
 				var width = font.get_string_size(data.code).x
 				draw_string(font, Vector2(-width/2, get_viewport().size.y*get_parent().get_node("Camera2D").zoom.y/2-80), data.code, Color(1,1,1))
+			if(data.is_impostor && data.kill_cooldown > 0):
+				var cooldown_text = str(int(data.kill_cooldown))
+				var width = font.get_string_size(cooldown_text).x
+				draw_string(font, Vector2(get_viewport().size.x*get_parent().get_node("Camera2D").zoom.x/2-width/2-80, get_viewport().size.y*get_parent().get_node("Camera2D").zoom.y/2-80), cooldown_text,Color(1,0,0))
 			var i = int(-game.settings.colors.size()/2)
 			for draw_color in game.settings.colors:
 				draw_circle(Vector2(60*i,get_viewport().size.y*get_parent().get_node("Camera2D").zoom.y/2-40),20,draw_color)

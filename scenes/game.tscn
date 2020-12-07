@@ -28,12 +28,15 @@ polygon = PoolVector2Array( 408, 72, 428, 72, 428, 252, 608, 252, 608, -72, 780,
 [sub_resource type="OccluderPolygon2D" id=6]
 polygon = PoolVector2Array( -552, -72, -552, -236, -816, -236, -816, 12, -552, 12, -552, 0, -532, 0, -532, 124, -552, 124, -552, 44, -772, 44, -772, 264, -552, 264, -552, 192, -536, 192, -536, 344, -140, 344, -140, 372, -228, 372, -228, 568, -36, 568, -36, 368, -76, 368, -76, 344, 344, 344, 344, 368, 20, 368, 20, 568, 444, 568, 444, 344, 780, 344, 780, 252, 872, 252, 872, 0, 848, 0, 848, -160, 428, -160, 428, 0, 408, 0, 408, -312, 428, -312, 428, -196, 716, -196, 716, -452, 428, -452, 428, -384, 408, -384, 408, -452, -408, -452, -408, -588, -876, -588, -876, -256, -924, -256, -924, -628, 924, -628, 924, 624, -924, 624, -924, -252, -876, -256, -532, -256, -532, -72 )
 
-[sub_resource type="CircleShape2D" id=7]
-radius = 32.0
+[sub_resource type="CapsuleShape2D" id=7]
+radius = 14.0
+height = 32.0
 
 [node name="Game" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_right = 1024.0
+margin_bottom = 600.0
 script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -141,6 +144,8 @@ texture = ExtResource( 2 )
 script = ExtResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2( 2, 25 )
+rotation = 1.5708
 shape = SubResource( 7 )
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
