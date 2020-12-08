@@ -10,6 +10,8 @@ var player_ids : Array = []
 var players_node: Node
 var logs:Array = []
 var playing:bool = false
+var ending:bool = false
+var starting:bool = false
 const settings = {
 	impostors = 2,
 	killLength=250,
@@ -203,7 +205,9 @@ func get_client_info():
 		id=id,
 		drawing=[prev_pixel,mouse_pixel,draw_color],
 		color=color,
-		vote=vote
+		vote=vote,
+		ending=ending,
+		starting=starting
 	}
 	prev_pixel = mouse_pixel
 	killing = -1
@@ -220,8 +224,14 @@ func update_player(player_id, data):
 	if(data.first_player):
 		impostors = data.impostors
 		is_impostor = impostors.has(id)
-	if(data.playing && !playing):
+	if(data.starting && !playing && !starting):
 		start_game()
+	elif(data.starting && starting):
+		starting = false
+	if(data.ending && playing && !ending):
+		end_game()
+	elif(data.ending && ending):
+		ending = false
 
 	if(data.drawing[1]):
 		lines_to_draw.append(data.drawing)
@@ -259,15 +269,34 @@ func update_player(player_id, data):
 			body.light_mask = 2
 			body.position = player.position
 			add_child(body)
+
+	var alive_players = 0
+	var alive_impostors = 0
+	if(!is_dead): 
+		alive_players = 1
+		if(is_impostor): alive_impostors = 1
+	for player in players.values():
+		if(!player.is_dead):
+			alive_players += 1
+			if(player.is_impostor): alive_impostors += 1
+	if(alive_impostors*2 >= alive_players): end_game()
 	var player_node:Sprite = players_node.get_node(str(player_id))
 	player_node.position = data.pos
 	player_node.data = data
 	player_node.update()
 
 func start_game():
-	var rot = id
-	player.position = Vector2(300,-1000)+Vector2(cos(rot),sin(rot))*200
+	var rot = id%100
+	var voting:Node2D = get_node("Background/Voting")
+	player.position = voting.position+Vector2(0,50)+Vector2(rot-50,0)
+
+	img.create($Background.texture.get_size().x, $Background.texture.get_size().y,false,Image.FORMAT_RGBA8)
+	new_texture.create_from_image(img)
+	drawing.texture = new_texture
+	drawing.update()
+
 	playing = true
+	starting = true
 	if(first_player):
 		var l_players = player_ids
 		l_players.append(id)
@@ -278,6 +307,21 @@ func start_game():
 			l_players.remove(idx)
 			impostors.append(id)
 		is_impostor = impostors.has(id)
+
+func end_game():
+	var rot = id%100
+	var voting:Node2D = get_node("Background/Voting")
+	player.position = voting.position+Vector2(0,50)+Vector2(rot-50,0)
+
+	img.create($Background.texture.get_size().x, $Background.texture.get_size().y,false,Image.FORMAT_RGBA8)
+	new_texture.create_from_image(img)
+	drawing.texture = new_texture
+	drawing.update()
+	
+	playing = false
+	is_impostor = false
+	impostors = []
+	ending = true
 
 func disconnect_peer(id):
 	players_node.get_node(str(id)).remove_and_skip()
