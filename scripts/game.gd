@@ -14,7 +14,7 @@ const settings = {
 	impostors = 2,
 	killLength=250,
 	kill_cooldown=25,
-	colors=[Color(1,0,0),Color(0,1,0),Color(1,1,0),Color(0,0,1),Color(1,0,1),Color(0,1,1),Color(1,1,1),Color(0,0,0)]
+	colors=[Color(1,0,0),Color(0,1,0),Color(1,1,0),Color(0,0,1),Color(1,0,1),Color(0,1,1),Color(1,1,1),Color(0,0,0),Color(0.5,0,0.5),Color(0.5,0.5,0.5),Color(0,0.5,0),Color(0.5,0.25,0)]
 }
 var is_impostor:bool = false
 var killing:int
@@ -166,10 +166,12 @@ func get_client_info():
 	var voting:Node2D = get_node("Background/Voting")
 	voting.update()
 	if(Input.is_action_just_pressed("vote")):
-		if((mouse_pos-voting.position).length() < 40):
-			var idx = int(((mouse_pos-voting.position).rotated(-PI).angle()+PI)/2/PI*players.size()+0.5)
-			if(idx == player_ids.size()): idx = 0
-			vote = player_ids[idx]
+		var diff = mouse_pos-2*voting.position
+		if(abs(diff.y) < 20):
+			var idx = round(diff.x/60+int(players.size()/2))
+			if(idx >= 0 && idx < players.size()):
+				vote = player_ids[idx]
+			else: vote = -1
 	if(vote > 0 && players[vote].is_dead): vote = -1
 			
 	if(Input.get_action_strength("start") == 1 && !playing): start_game()
