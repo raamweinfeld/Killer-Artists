@@ -1,6 +1,6 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=17 format=2]
 
-[ext_resource path="res://assets/bg_test.png" type="Texture" id=1]
+[ext_resource path="res://assets/map_proto.png" type="Texture" id=1]
 [ext_resource path="res://assets/KillerArtist.png" type="Texture" id=2]
 [ext_resource path="res://scripts/player.gd" type="Script" id=3]
 [ext_resource path="res://scripts/game.gd" type="Script" id=4]
@@ -8,140 +8,166 @@
 [ext_resource path="res://assets/pictureLightMask2_thumb.png" type="Texture" id=6]
 [ext_resource path="res://assets/pictureLightMask_thumb.png" type="Texture" id=7]
 [ext_resource path="res://scripts/voting.gd" type="Script" id=8]
+[ext_resource path="res://client/multiplayer_client.gd" type="Script" id=9]
 
 [sub_resource type="OccluderPolygon2D" id=1]
-polygon = PoolVector2Array( -13.3333, 40, 69.3333, 40, 69.3333, -117.333, -18.6667, -117.333, -117.333, -216, -117.333, -312, -205.333, -312, -205.333, -282.667, -146.667, -282.667, -146.667, -181.333, -77.3333, -114.667, -77.3333, -64, -282.667, -64, -314.667, -104, -314.667, -282.667, -266.667, -282.667, -266.667, -312, -464, -312, -464, -232, -514.667, -232, -514.667, -128, -448, -128, -448, -181.333, -410.667, -213.333, -373.333, -213.333, -346.667, -184, -346.667, -2.66667, -448, -2.66667, -448, -53.3333, -514.667, -53.3333, -514.667, 56, -464, 56, -464, 122.667, -322.667, 122.667, -322.667, 232, -280, 232, -280, 82.6667, -178.667, 82.6667, -178.667, 66.6667, -280, 66.6667, -277.333, -18.6667, -77.3333, -18.6667, -77.3333, 32, -128, 82.6667, -128, 160, -168, 200, -221.333, 200, -221.333, 232, -74.6667, 232, -74.6667, 101.333 )
+polygon = PoolVector2Array( 208, 260, 24, 260, 24, 132, 308, 132, 308, 260, 272, 260, 272, 272, 344, 272, 344, -384, 236, -384, 236, -368, 308, -368, 308, 112, 120, 112, 120, 36, -8, 36, -8, -28, -20, -28, -20, 272, 208, 272 )
 
 [sub_resource type="OccluderPolygon2D" id=2]
-polygon = PoolVector2Array( 130.667, 16, 130.667, 40, 165.333, 40, 165.333, 141.333, 410.667, 144, 410.667, 133.333, 450.667, 93.3333, 477.333, 93.3333, 477.333, -85.3333, 573.333, -85.3333, 573.333, -133.333, 437.333, -133.333, 437.333, -90.6667, 290.667, -90.6667, 290.667, -149.333, 354.667, -210.667, 354.667, -226.667, 434.667, -226.667, 434.667, -210.667, 474.667, -210.667, 474.667, -261.333, 453.333, -261.333, 410.667, -301.333, 410.667, -312, 325.333, -312, 325.333, -218.667, 224, -117.333, 133.333, -117.333, 133.333, -61.3333, 405.333, -61.3333, 405.333, 82.6667, 370.667, 117.333, 208, 117.333, 208, 16 )
+polygon = PoolVector2Array( 184, 48, 244, 48, 244, -172, 96, -172, 96, -368, 172, -368, 172, -384, -20, -384, -20, -96, -8, -96, -8, -160, 204, -160, 204, 36, 184, 36 )
 
 [sub_resource type="OccluderPolygon2D" id=3]
-polygon = PoolVector2Array( -74.6667, 309.333, -74.6667, 320, 8, 402.667, 165.333, 402.667, 165.333, 216, 304, 216, 304, 250.667, 189.333, 250.667, 189.333, 360, 229.333, 400, 349.333, 400, 386.667, 362.667, 386.667, 250.667, 362.667, 250.667, 362.667, 216, 410.667, 216, 410.667, 298.667, 506.667, 298.667, 592, 213.333, 592, 93.3333, 538.667, 93.3333, 538.667, -10.6667, 632, -10.6667, 632, -80, 752, -80, 752, -26.6667, 826.667, -26.6667, 890.667, -77.3333, 890.667, -154.667, 826.667, -210.667, 752, -210.667, 752, -157.333, 632, -157.333, 632, -210.667, 538.667, -210.667, 538.667, -261.333, 592, -261.333, 592, -384, 506.667, -469.333, 410.667, -469.333, 410.667, -386.667, 325.333, -386.667, 325.333, -448, 210.667, -562.667, -40, -562.667, -120, -482.667, -120, -389.333, -464, -389.333, -464, -437.333, -602.667, -437.333, -648, -400, -648, -357.333, -530.667, -357.333, -648, -354.667, -648, -234.667, -576, -234.667, -576, -128, -637.333, -128, -637.333, -186.667, -698.667, -186.667, -698.667, -256, -738.667, -256, -808, -210.667, -808, 18.6667, -738.667, 64, -698.667, 64, -698.667, -2.66667, -637.333, -2.66667, -637.333, -53.3333, -576, -53.3333, -576, 56, -650.667, 56, -650.667, 125.333, -528, 125.333, -650.667, 128, -650.667, 218.667, -600, 261.333, -464, 261.333, -464, 197.333, -384, 197.333, -384, 309.333, -1000, 600, -994.667, -594.667, 1002.67, -597.333, 1000, 600, -400, 592, -384, 309.333 )
+polygon = PoolVector2Array( -468, -252, -412, -252, -412, -384, -84, -384, -84, -96, -104, -96, -104, -364, -392, -364, -392, -184, -468, -184 )
 
 [sub_resource type="OccluderPolygon2D" id=4]
-polygon = PoolVector2Array( -18.6667, 186.667, -34.6667, 200, -13.3333, 208, 0, 197.333, 0, 208, 26.6667, 208, 26.6667, 210.667, 40, 210.667, 40, 256, 64, 266.667, 82.6667, 253.333, 82.6667, 210.667, 104, 210.667, 104, 176, 117.333, 176, 117.333, 144, 66.6667, 144, 53.3333, 136, 34.6667, 152, 29.3333, 149.333, 16, 154.667, 0, 154.667, 0, 194.667 )
+polygon = PoolVector2Array( -464, -112, -464, 272, -84, 272, -84, 224, -112, 224, -112, 260, -336, 260, -336, 112, -112, 112, -112, 152, -84, 152, -84, -24, -104, -24, -104, 96, -392, 96, -392, -112 )
 
-[sub_resource type="CircleShape2D" id=5]
-radius = 32.0
+[sub_resource type="OccluderPolygon2D" id=5]
+polygon = PoolVector2Array( 408, 72, 428, 72, 428, 252, 608, 252, 608, -72, 780, -72, 780, 0, 636, 0, 636, 252, 720, 252, 720, 272, 408, 272 )
+
+[sub_resource type="OccluderPolygon2D" id=6]
+polygon = PoolVector2Array( -552, -72, -552, -236, -816, -236, -816, 12, -552, 12, -552, 0, -532, 0, -532, 124, -552, 124, -552, 44, -772, 44, -772, 264, -552, 264, -552, 192, -536, 192, -536, 344, -140, 344, -140, 372, -228, 372, -228, 568, -36, 568, -36, 368, -76, 368, -76, 344, 344, 344, 344, 368, 20, 368, 20, 568, 444, 568, 444, 344, 780, 344, 780, 252, 872, 252, 872, 0, 848, 0, 848, -160, 428, -160, 428, 0, 408, 0, 408, -312, 428, -312, 428, -196, 716, -196, 716, -452, 428, -452, 428, -384, 408, -384, 408, -452, -408, -452, -408, -588, -876, -588, -876, -256, -924, -256, -924, -628, 924, -628, 924, 624, -924, 624, -924, -252, -876, -256, -532, -256, -532, -72 )
+
+[sub_resource type="CapsuleShape2D" id=7]
+radius = 14.0
+height = 32.0
 
 [node name="Game" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_right = 1024.0
+margin_bottom = 600.0
 script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ViewportContainer" type="ViewportContainer" parent="."]
-margin_right = 1024.0
-margin_bottom = 600.0
-stretch = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="Client" type="Node" parent="."]
+script = ExtResource( 9 )
 
-[node name="Viewport" type="Viewport" parent="ViewportContainer"]
-size = Vector2( 1024, 600 )
-handle_input_locally = false
-render_target_update_mode = 3
-
-[node name="Background" type="Sprite" parent="ViewportContainer/Viewport"]
+[node name="Background" type="Sprite" parent="."]
 modulate = Color( 0.13, 0.13, 0.13, 1 )
-scale = Vector2( 3, 3 )
+scale = Vector2( 2, 2 )
 texture = ExtResource( 1 )
 
-[node name="StaticBody2D" type="StaticBody2D" parent="ViewportContainer/Viewport/Background"]
+[node name="Voting" type="Node2D" parent="Background"]
+position = Vector2( -640, -340 )
+script = ExtResource( 8 )
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ViewportContainer/Viewport/Background/StaticBody2D"]
-polygon = PoolVector2Array( 130.667, 16, 208, 16, 208, 116.964, 370.667, 117.333, 405.333, 82.6667, 405.333, -34.6667, 133.333, -34.6667, 133.333, -117.333, 224, -117.333, 325.333, -218.667, 325.333, -312, 461.333, -312, 474.667, -296, 474.667, -181.333, 357.333, -181.333, 290.667, -117.333, 290.667, -90.6667, 437.333, -90.6667, 437.333, -133.333, 573.333, -133.333, 573.333, -56, 477.333, -56, 477.333, 149.333, 442.667, 176, 165.333, 176, 165.333, 66.6667, 130.667, 66.6667 )
+[node name="Colliders" type="StaticBody2D" parent="Background"]
+visible = false
 
-[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="ViewportContainer/Viewport/Background/StaticBody2D"]
-polygon = PoolVector2Array( 69.3333, 66.6667, 69.3333, -117.333, -18.6667, -117.333, -117.333, -216, -117.333, -312, -205.333, -312, -205.333, -253.333, -146.667, -253.333, -146.667, -242.667, -194.667, -242.667, -194.667, -213.333, -146.667, -213.333, -146.667, -192, -194.667, -192, -194.667, -160, -146.667, -160, -146.667, -149.333, -77.3333, -80, -77.3333, -64, -282.667, -64, -314.667, -104, -314.667, -160, -269.333, -160, -269.333, -192, -314.667, -192, -314.667, -213.333, -269.333, -213.333, -269.333, -242.667, -314.667, -242.667, -314.667, -253.333, -266.667, -253.333, -266.667, -312, -464, -312, -464, -232, -514.667, -232, -514.667, -98.6667, -448, -98.6667, -448, -149.333, -410.667, -186.667, -376, -186.667, -346.667, -157.333, -346.667, -106.667, -384, -106.667, -384, -90.6667, -365.333, -90.6667, -365.333, -58.6667, -346.667, -58.6667, -346.667, -2.66667, -344, -2.66667, -448, -2.66667, -448, -53.3333, -514.667, -53.3333, -514.667, 85.3333, -464, 85.3333, -464, 152, -322.667, 152, -322.667, 261.333, -280, 261.333, -280, 114.667, -178.667, 114.667, -178.667, 66.6667, -280, 66.6667, -280, 10.6667, -213.333, 10.6667, -213.333, 18.6667, -141.333, 18.6667, -141.333, 21.3333, -77.3333, 21.3333, -77.3333, 32, -128, 82.6667, -128, 160, -168, 200, -221.333, 200, -221.333, 261.333, -74.6667, 261.333, -74.6667, 128, -13.3333, 66.6667 )
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Background/Colliders"]
+polygon = PoolVector2Array( 272, 260, 272, 296, 344, 296, 344, -384, 236, -384, 236, -340, 308, -340, 308, 112, 120, 112, 120, 36, -8, 36, -8, -28, -20, -28, -20, 296, 208, 296, 208, 260, 24, 260, 24, 156, 308, 156, 308, 260 )
 
-[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="ViewportContainer/Viewport/Background/StaticBody2D"]
-polygon = PoolVector2Array( -74.6667, 309.333, -74.6667, 320, 8, 402.667, 165.333, 402.667, 165.333, 216, 304, 216, 304, 277.333, 296, 277.333, 288, 285.333, 248, 285.333, 248, 288, 189.333, 288, 189.333, 336, 213.333, 336, 213.333, 370.667, 200, 370.667, 229.333, 400, 245.333, 400, 245.333, 384, 269.333, 384, 269.333, 349.333, 285.333, 349.333, 285.333, 370.667, 304, 370.667, 304, 384, 344, 384, 344, 400, 349.333, 400, 378.667, 370.667, 365.333, 370.667, 365.333, 336, 386.667, 336, 386.667, 277.333, 362.667, 277.333, 362.667, 216, 405.333, 216, 405.333, 210.667, 445.333, 210.667, 458.667, 232, 480, 245.333, 480, 269.333, 421.333, 269.333, 421.333, 290.667, 474.667, 290.667, 474.667, 298.667, 506.667, 298.667, 533.333, 272, 533.333, 229.333, 546.667, 213.333, 549.333, 197.333, 544, 178.667, 533.333, 168, 533.333, 136, 592, 136, 592, 120, 538.667, 120, 538.667, -10.6667, 632, -10.6667, 632, -80, 752, -80, 752, -26.6667, 826.667, -26.6667, 890.667, -77.3333, 890.667, -85.3333, 874.667, -72, 866.667, -74.6667, 866.667, -82.6667, 858.667, -88, 872, -98.6667, 872, -122.667, 858.667, -128, 864, -138.667, 880, -138.667, 866.667, -146.667, 853.333, -149.333, 853.333, -154.667, 829.333, -173.333, 834.667, -176, 826.667, -181.333, 752, -181.333, 752, -128, 632, -128, 632, -181.333, 538.667, -181.333, 538.667, -253.333, 533.333, -253.333, 533.333, -328, 544, -341.333, 546.667, -365.333, 581.333, -365.333, 506.667, -440, 461.333, -440, 461.333, -397.333, 453.333, -389.333, 448, -381.333, 437.333, -354.667, 408, -354.667, 408, -357.333, 325.333, -357.333, 325.333, -418.667, 210.667, -533.333, -40, -533.333, -120, -453.333, -122.667, -360, -464, -360, -464, -410.667, -602.667, -410.667, -632, -384, -621.333, -373.333, -501.333, -373.333, -501.333, -280, -602.667, -280, -610.667, -261.333, -650.667, -261.333, -650.667, -234.667, -576, -234.667, -576, -101.333, -637.333, -101.333, -637.333, -157.333, -698.667, -157.333, -698.667, -226.667, -738.667, -226.667, -786.667, -184, -786.667, -117.333, -746.667, -117.333, -746.667, -53.3333, -784, -53.3333, -784, 37.3333, -738.667, 64, -698.667, 64, -698.667, -2.66667, -637.333, -2.66667, -637.333, -53.3333, -576, -53.3333, -576, 85.3333, -650.667, 85.3333, -650.667, 112, -498.667, 112, -498.667, 202.667, -602.667, 202.667, -602.667, 213.333, -610.667, 224, -648, 224, -600, 261.333, -464, 261.333, -464, 197.333, -384, 197.333, -384, 309.333, -994.667, 597.333, -994.667, -594.667, 1002.67, -597.333, 1000, 594.667, -397.333, 594.667, -384, 309.333 )
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Background/Colliders"]
+polygon = PoolVector2Array( 184, 36, 184, 48, 240, 48, 240, -172, 96, -172, 96, -340, 172, -340, 172, -384, -20, -384, -20, -96, -8, -96, -8, -132, 204, -132, 204, 36 )
 
-[node name="CollisionPolygon2D4" type="CollisionPolygon2D" parent="ViewportContainer/Viewport/Background/StaticBody2D"]
-polygon = PoolVector2Array( -34.6667, 218.667, -13.3333, 229.333, 0, 218.667, 0, 245.333, 26.6667, 245.333, 26.6667, 269.333, 37.3333, 269.333, 37.3333, 285.333, 64, 296, 82.6667, 277.333, 82.6667, 266.667, 104, 266.667, 104, 245.333, 109.333, 248, 114.667, 248, 122.667, 242.667, 122.667, 226.667, 117.333, 218.667, 117.333, 144, 66.6667, 144, 53.3333, 136, 34.6667, 152, 29.3333, 149.333, 16, 154.667, 0, 154.667, 0, 194.667, -18.6667, 186.667, -34.6667, 200 )
+[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="Background/Colliders"]
+polygon = PoolVector2Array( -84, -96, -84, -384, -412, -384, -412, -252, -464, -252, -464, -168, -392, -168, -392, -332, -104, -332, -104, -96 )
 
-[node name="CollisionPolygon2D5" type="CollisionPolygon2D" parent="ViewportContainer/Viewport/Background/StaticBody2D"]
-polygon = PoolVector2Array( -26.6667, -181.333, 16, -181.333, 50.6667, -208, 50.6667, -240, 21.3333, -269.333, -26.6667, -269.333, -61.3333, -245.333, -64, -213.333 )
+[node name="CollisionPolygon2D4" type="CollisionPolygon2D" parent="Background/Colliders"]
+polygon = PoolVector2Array( -468, -112, -392, -112, -392, 96, -104, 96, -104, -24, -84, -24, -84, 152, -112, 152, -112, 140, -336, 140, -336, 260, -112, 260, -112, 224, -84, 224, -84, 296, -468, 296 )
 
-[node name="CollisionPolygon2D6" type="CollisionPolygon2D" parent="ViewportContainer/Viewport/Background/StaticBody2D"]
-position = Vector2( 200, 0 )
-polygon = PoolVector2Array( -26.6667, -181.333, 16, -184, 50.6667, -208, 50.6667, -240, 18.6667, -266.667, -26.6667, -269.333, -64, -245.333, -64, -213.333 )
+[node name="CollisionPolygon2D5" type="CollisionPolygon2D" parent="Background/Colliders"]
+polygon = PoolVector2Array( 408, 68, 428, 68, 428, 252, 608, 252, 608, -72, 780, -72, 780, 24, 636, 24, 636, 252, 720, 252, 720, 296, 408, 296 )
 
-[node name="CollisionPolygon2D7" type="CollisionPolygon2D" parent="ViewportContainer/Viewport/Background/StaticBody2D"]
-position = Vector2( 0, -205.333 )
-polygon = PoolVector2Array( -26.6667, -181.333, 16, -181.333, 50.6667, -208, 50.6667, -240, 21.3333, -269.333, -26.6667, -269.333, -61.3333, -245.334, -64, -213.333 )
+[node name="CollisionPolygon2D6" type="CollisionPolygon2D" parent="Background/Colliders"]
+polygon = PoolVector2Array( -552, -72, -552, -208, -816, -208, -816, 12, -552, 12, -552, 0, -532, 0, -532, 124, -552, 124, -552, 72, -772, 72, -772, 264, -552, 264, -552, 192, -536, 192, -536, 344, -144, 344, -144, 396, -228, 396, -228, 568, -36, 568, -36, 368, -76, 368, -76, 344, 344, 344, 344, 396, 24, 396, 24, 568, 444, 568, 444, 344, 780, 344, 780, 252, 872, 252, 872, 0, 848, 0, 848, -136, 428, -136, 428, 0, 408, 0, 408, -312, 428, -312, 428, -196, 712, -196, 712, -428, 428, -428, 428, -384, 408, -384, 408, -428, -412, -428, -412, -536, -876, -536, -876, -256, -944, -256, -944, -632, 936, -640, 936, 644, -948, 644, -944, -244, -876, -244, -876, -244, -876, -256, -532, -256, -532, -72 )
 
-[node name="CollisionPolygon2D8" type="CollisionPolygon2D" parent="ViewportContainer/Viewport/Background/StaticBody2D"]
-position = Vector2( 197.333, -208 )
-polygon = PoolVector2Array( -26.6667, -181.333, 16, -181.333, 50.6667, -208, 50.6667, -240, 21.3333, -269.333, -26.6667, -269.333, -58.6663, -245.333, -64, -213.333 )
+[node name="LightOccluders" type="Node2D" parent="Background"]
 
-[node name="CollisionPolygon2D9" type="CollisionPolygon2D" parent="ViewportContainer/Viewport/Background/StaticBody2D"]
-position = Vector2( 98.6667, -104 )
-polygon = PoolVector2Array( -18.6667, -181.333, 10.6666, -181.333, 40, -194.667, 53.3333, -216, 53.3333, -237.333, 32, -258.667, 10.6666, -266.667, -18.6667, -266.667, -40, -258.667, -61.3334, -237.333, -61.3334, -216, -48, -194.667 )
-
-[node name="CollisionPolygon2D10" type="CollisionPolygon2D" parent="ViewportContainer/Viewport/Background/StaticBody2D"]
-polygon = PoolVector2Array( 261.333, 26.6667, 261.333, 74.6667, 290.667, 74.6667, 290.667, 77.3333, 325.333, 77.3333, 325.333, 74.6667, 357.333, 74.6667, 357.333, 26.6667 )
-
-[node name="LightOccluder2D" type="LightOccluder2D" parent="ViewportContainer/Viewport/Background"]
-light_mask = -2147483645
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Background/LightOccluders"]
+light_mask = 3
 occluder = SubResource( 1 )
-light_mask = -2147483645
+light_mask = 3
 
-[node name="LightOccluder2D2" type="LightOccluder2D" parent="ViewportContainer/Viewport/Background"]
+[node name="LightOccluder2D2" type="LightOccluder2D" parent="Background/LightOccluders"]
 light_mask = 3
 occluder = SubResource( 2 )
 light_mask = 3
 
-[node name="LightOccluder2D3" type="LightOccluder2D" parent="ViewportContainer/Viewport/Background"]
+[node name="LightOccluder2D3" type="LightOccluder2D" parent="Background/LightOccluders"]
 light_mask = 3
 occluder = SubResource( 3 )
 light_mask = 3
 
-[node name="LightOccluder2D4" type="LightOccluder2D" parent="ViewportContainer/Viewport/Background"]
+[node name="LightOccluder2D4" type="LightOccluder2D" parent="Background/LightOccluders"]
 light_mask = 3
 occluder = SubResource( 4 )
 light_mask = 3
 
-[node name="Voting" type="Node2D" parent="ViewportContainer/Viewport/Background"]
-position = Vector2( 96, -341.333 )
-script = ExtResource( 8 )
+[node name="LightOccluder2D5" type="LightOccluder2D" parent="Background/LightOccluders"]
+light_mask = 3
+occluder = SubResource( 5 )
+light_mask = 3
 
-[node name="Drawing" type="Sprite" parent="ViewportContainer/Viewport"]
+[node name="LightOccluder2D6" type="LightOccluder2D" parent="Background/LightOccluders"]
+light_mask = 3
+occluder = SubResource( 6 )
+light_mask = 3
 
-[node name="Players" type="Node" parent="ViewportContainer/Viewport"]
+[node name="Area2D" type="Area2D" parent="Background"]
+visible = false
 
-[node name="Player" type="KinematicBody2D" parent="ViewportContainer/Viewport"]
-position = Vector2( 216, 272 )
+[node name="CollisionPolygon2D7" type="CollisionPolygon2D" parent="Background/Area2D"]
+polygon = PoolVector2Array( 272, 260, 272, 272, 344, 272, 344, -384, 236, -384, 236, -368, 308, -368, 308, 112, 120, 112, 120, 36, -8, 36, -8, -28, -20, -28, -20, 272, 208, 272, 208, 260, 24, 260, 24, 132, 308, 132, 308, 260 )
+
+[node name="CollisionPolygon2D8" type="CollisionPolygon2D" parent="Background/Area2D"]
+polygon = PoolVector2Array( 184, 36, 184, 48, 244, 48, 244, -172, 96, -172, 96, -368, 172, -368, 172, -384, -20, -384, -20, -96, -8, -96, -8, -160, 204, -160, 204, 36 )
+
+[node name="CollisionPolygon2D9" type="CollisionPolygon2D" parent="Background/Area2D"]
+polygon = PoolVector2Array( -84, -96, -84, -384, -412, -384, -412, -252, -468, -252, -468, -184, -392, -184, -392, -364, -104, -364, -104, -96 )
+
+[node name="CollisionPolygon2D10" type="CollisionPolygon2D" parent="Background/Area2D"]
+polygon = PoolVector2Array( -464, -112, -392, -112, -392, 96, -104, 96, -104, -24, -84, -24, -84, 152, -112, 152, -112, 112, -336, 112, -336, 260, -112, 260, -112, 224, -84, 224, -84, 272, -464, 272 )
+
+[node name="CollisionPolygon2D11" type="CollisionPolygon2D" parent="Background/Area2D"]
+polygon = PoolVector2Array( 408, 72, 428, 72, 428, 252, 608, 252, 608, -72, 780, -72, 780, 0, 636, 0, 636, 252, 720, 252, 720, 272, 408, 272 )
+
+[node name="CollisionPolygon2D12" type="CollisionPolygon2D" parent="Background/Area2D"]
+polygon = PoolVector2Array( -552, -72, -552, -236, -816, -236, -816, 12, -552, 12, -552, 0, -532, 0, -532, 124, -552, 124, -552, 44, -772, 44, -772, 264, -552, 264, -552, 192, -536, 192, -536, 344, -140, 344, -140, 372, -228, 372, -228, 568, -36, 568, -36, 368, -76, 368, -76, 344, 344, 344, 344, 368, 20, 368, 20, 568, 444, 568, 444, 344, 780, 344, 780, 252, 872, 252, 872, 0, 848, 0, 848, -160, 428, -160, 428, 0, 408, 0, 408, -312, 428, -312, 428, -196, 716, -196, 716, -452, 428, -452, 428, -384, 408, -384, 408, -452, -408, -452, -408, -588, -876, -588, -876, -256, -944, -256, -944, -632, 936, -640, 936, 644, -948, 644, -944, -244, -876, -244, -876, -244, -876, -256, -532, -256, -532, -72 )
+
+[node name="Drawing" type="Sprite" parent="."]
+light_mask = 2
+scale = Vector2( 2, 2 )
+
+[node name="Players" type="Node" parent="."]
+
+[node name="Player" type="KinematicBody2D" parent="."]
+position = Vector2( 368, 408 )
 script = ExtResource( 3 )
 
-[node name="Sprite" type="Sprite" parent="ViewportContainer/Viewport/Player"]
+[node name="Sprite" type="Sprite" parent="Player"]
 light_mask = -2147483644
 texture = ExtResource( 2 )
 script = ExtResource( 5 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ViewportContainer/Viewport/Player"]
-shape = SubResource( 5 )
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2( 2, 25 )
+rotation = 1.5708
+shape = SubResource( 7 )
 
-[node name="Camera2D" type="Camera2D" parent="ViewportContainer/Viewport/Player"]
+[node name="Camera2D" type="Camera2D" parent="Player"]
 current = true
 zoom = Vector2( 2, 2 )
 
-[node name="Light2D" type="Light2D" parent="ViewportContainer/Viewport/Player"]
+[node name="Light2D" type="Light2D" parent="Player"]
 texture = ExtResource( 6 )
 texture_scale = 4.23
-energy = 5.0
+energy = 2.0
 shadow_enabled = true
 
-[node name="Light2D2" type="Light2D" parent="ViewportContainer/Viewport/Player"]
+[node name="Light2D2" type="Light2D" parent="Player"]
+light_mask = 2
 texture = ExtResource( 7 )
 texture_scale = 4.23
 mode = 3
 range_item_cull_mask = 2
 shadow_enabled = true
 shadow_item_cull_mask = 2
-[connection signal="mouse_entered" from="ViewportContainer" to="." method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="ViewportContainer" to="." method="_on_mouse_exited"]
+
+[node name="RayCast2D" type="RayCast2D" parent="Player"]
+cast_to = Vector2( 0, 0 )
+collide_with_areas = true
+collide_with_bodies = false
